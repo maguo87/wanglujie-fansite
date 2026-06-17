@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumos 论坛 — 忙鱼の橹杰收藏馆</title>
+  <meta name="theme-color" content="#2D5A3D">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="橹杰论坛">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root{--green:#7EC8A0;--green-dark:#2D5A3D;--green-deep:#1a3a28;--gold:#C9A96E;--gold-light:#e4d5b7;--bg:#f5faf7;--white:#fff;--text:#2c3e2d;--text-light:#5a7a5e;--radius:16px;--radius-sm:10px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.7}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%}
+
+    /* 导航栏 */
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:56px;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(126,200,160,0.2);display:flex;align-items:center;justify-content:center}
+    .nav-inner{width:100%;max-width:900px;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:"Noto Serif SC",serif;font-size:1.1rem;font-weight:700;color:var(--green-dark)}
+    .nav-logo i{color:var(--gold);margin-right:4px}
+    .nav-links{display:flex;gap:8px;list-style:none}
+    .nav-links a{padding:6px 14px;border-radius:20px;font-size:0.85rem;color:var(--text-light);transition:all 0.25s}
+    .nav-links a:hover,.nav-links a.active{color:var(--green-dark);background:rgba(126,200,160,0.15)}
+
+    /* 主容器 */
+    .container{max-width:700px;margin:0 auto;padding:80px 16px 40px}
+
+    /* 登录区域 */
+    .login-bar{display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 0 24px}
+    .user-avatar{width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem}
+    .user-name{font-weight:600;color:var(--green-dark)}
+    .btn-sm{background:none;border:1px solid #ddd;border-radius:14px;padding:2px 10px;font-size:0.7rem;color:#999;cursor:pointer}
+    .btn-sm:hover{border-color:#e88;color:#e55}
+    .btn-main{background:var(--green-dark)!important;color:#fff!important;border:none;border-radius:20px;padding:8px 24px;cursor:pointer;font-size:0.9rem;letter-spacing:1px}
+    .btn-main:hover{opacity:0.9}
+    .login-tip{font-size:0.8rem;color:var(--text-light)}
+
+    /* 论坛标题 */
+    .forum-header{text-align:center;margin-bottom:20px}
+    .forum-header h1{font-family:"Noto Serif SC",serif;font-size:1.8rem;color:var(--green-dark)}
+    .forum-header p{color:var(--text-light);font-size:0.9rem;margin-top:4px}
+
+    /* 发帖按钮 */
+    .post-btn-bar{text-align:right;margin-bottom:16px}
+    .btn-post{background:linear-gradient(135deg,var(--green),var(--green-dark));color:#fff;border:none;border-radius:20px;padding:8px 20px;cursor:pointer;font-size:0.88rem;letter-spacing:1px;transition:opacity 0.2s}
+    .btn-post:hover{opacity:0.9}
+
+    /* 帖子列表 */
+    .post-list{}
+    .post-card{background:var(--white);border-radius:var(--radius-sm);padding:18px 20px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all 0.2s;border-left:3px solid transparent;position:relative;display:flex;gap:14px}
+    .post-card:hover{border-left-color:var(--green);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
+    .post-card-avatar{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:#fff;background:var(--gold)}
+    .post-card-body{flex:1;min-width:0}
+    .post-card-title{font-weight:700;font-size:1rem;color:var(--green-dark);margin-bottom:4px}
+    .post-card-title .tag{display:inline-block;background:var(--gold);color:#fff;font-size:0.65rem;padding:1px 6px;border-radius:8px;vertical-align:middle;margin-left:6px}
+    .post-card-preview{font-size:0.85rem;color:var(--text-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .post-card-meta{font-size:0.75rem;color:#bbb;margin-top:6px}
+    .post-card-meta i{margin:0 4px}
+    .btn-del-post{position:absolute;top:8px;right:10px;background:none;border:none;color:#ccc;cursor:pointer;font-size:0.8rem;padding:2px 6px;border-radius:4px}
+    .btn-del-post:hover{color:#e55;background:#fff0f0}
+    .empty-state{text-align:center;padding:60px 20px;color:#bbb}
+    .empty-state i{font-size:3rem;display:block;margin-bottom:16px;color:#c0d8c8}
+    .load-more{text-align:center;padding:16px}
+    .load-more button{background:none;border:1.5px solid #d4ede0;border-radius:20px;padding:6px 24px;color:var(--text-light);cursor:pointer;font-size:0.85rem}
+
+    /* 帖子详情面板 */
+    .detail-panel{display:none;background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:0 4px 20px rgba(0,0,0,0.06)}
+    .detail-back{background:none;border:none;color:var(--green-dark);cursor:pointer;font-size:0.9rem;padding:0;margin-bottom:16px;font-weight:600}
+    .detail-back:hover{opacity:0.7}
+    .detail-title{font-size:1.3rem;font-weight:700;color:var(--green-deep);margin-bottom:8px}
+    .detail-meta{font-size:0.8rem;color:#bbb;margin-bottom:16px}
+    .detail-content{font-size:0.95rem;line-height:1.8;color:var(--text);margin-bottom:16px;white-space:pre-wrap}
+    .detail-images{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    .detail-images img{max-width:180px;max-height:180px;border-radius:8px;object-fit:cover;cursor:pointer}
+    .detail-comments-title{font-weight:700;color:var(--green-dark);padding:16px 0 8px;border-top:1px solid #f0f0f0}
+    .detail-comments{margin-bottom:12px}
+    .comment-item{display:flex;gap:8px;padding:10px 0;border-bottom:1px solid #f5f5f5;position:relative}
+    .comment-item:last-child{border-bottom:none}
+    .comment-avatar{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.78rem;color:#fff}
+    .comment-avatar.mangyu{background:linear-gradient(135deg,var(--green-dark),var(--gold))}
+    .comment-avatar.self{background:var(--green)}
+    .comment-avatar.other{background:var(--gold)}
+    .comment-body{flex:1;min-width:0}
+    .comment-header{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
+    .comment-name{font-weight:600;font-size:0.85rem;color:var(--green-dark)}
+    .comment-name.is-self{color:var(--green)}
+    .comment-time{font-size:0.68rem;color:#bbb}
+    .comment-text{font-size:0.88rem;color:var(--text);word-break:break-word}
+    .comment-input-row{display:flex;gap:8px;margin-top:12px}
+    .comment-input-row input{flex:1;border:1.5px solid #d4ede0;border-radius:20px;padding:8px 14px;font-size:0.85rem;font-family:inherit;outline:none}
+    .comment-input-row input:focus{border-color:var(--green)}
+    .comment-input-row button{flex-shrink:0;background:var(--green);color:#fff;border:none;border-radius:50%;width:34px;height:34px;cursor:pointer;font-size:0.8rem}
+    .btn-del-comment{position:absolute;top:8px;right:4px;background:none;border:none;color:#ccc;cursor:pointer;font-size:0.7rem;padding:2px 4px}
+    .btn-del-comment:hover{color:#e55}
+
+    /* 发帖弹窗 */
+    .modal-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);display:none;align-items:center;justify-content:center}
+    .modal-box{background:#fff;border-radius:var(--radius);padding:28px;width:500px;max-width:92vw;box-shadow:0 16px 48px rgba(0,0,0,0.2)}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .modal-header h3{font-size:1.15rem;color:var(--green-dark)}
+    .modal-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:#999}
+    .modal-body input,.modal-body textarea{width:100%;padding:12px 14px;border:1.5px solid #d4ede0;border-radius:10px;margin-bottom:12px;font-size:0.92rem;font-family:inherit;background:#fafdfb;transition:border-color 0.25s,box-shadow 0.25s}
+    .modal-body input:focus,.modal-body textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(126,200,160,0.12)}
+    .modal-body textarea{min-height:100px;resize:vertical}
+    .modal-body .btn{width:100%;margin-top:8px;padding:12px;text-align:center}
+    .char-count{text-align:right;font-size:0.75rem;color:#bbb;margin-top:-6px;margin-bottom:8px}
+    .login-error{color:#e55;font-size:0.8rem;margin-bottom:8px;text-align:center;display:none}
+    .modal-switch{text-align:center;margin-top:14px;font-size:0.85rem;color:var(--text-light)}
+    .modal-switch a{color:var(--green-dark);font-weight:600}
+    .img-preview-area{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+    .img-preview{position:relative;width:70px;height:70px;border-radius:8px;overflow:hidden;border:1px solid #d4ede0}
+    .img-preview img{width:100%;height:100%;object-fit:cover}
+    .img-preview .img-remove{position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.6);color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:0.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .upload-btn{display:inline-flex;align-items:center;gap:4px;font-size:0.82rem;color:var(--green-dark);cursor:pointer;padding:6px 12px;border:1.5px dashed #d4ede0;border-radius:8px;margin-bottom:10px}
+    .upload-btn:hover{background:#f0faf4}
+    .login-error{color:#e55;font-size:0.8rem;margin-bottom:8px;text-align:center}
+    .modal-switch{text-align:center;margin-top:12px;font-size:0.85rem;color:var(--text-light)}
+    .modal-switch a{color:var(--green-dark);font-weight:600}
+
+    @media(max-width:600px){
+      .container{padding:72px 12px 30px}
+      .post-card{padding:14px 16px}
+      .detail-images img{max-width:100px;max-height:100px}
+    }
+  </style>
+</head>
+<body>
+
+<!-- 导航栏 -->
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><i class="fa-solid fa-star"></i>忙鱼の橹杰收藏馆</a>
+    <ul class="nav-links">
+      <li><a href="index.html">主页</a></li>
+      <li><a href="forum.html" class="active">💬 论坛</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- 登录/注册弹窗 -->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modalTitle">🔑 橹毛登录</h3>
+      <button class="modal-close" onclick="closeLoginModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="text" id="loginUsername" placeholder="昵称" maxlength="12" autocomplete="off">
+      <input id="loginPassword" type="password" placeholder="密码（至少6位）">
+      <div id="loginError" class="login-error" style="display:none;"></div>
+      <button class="btn btn-main" id="loginBtn" onclick="doLogin()">登录</button>
+      <button class="btn btn-main" id="registerBtn" onclick="doRegister()" style="display:none;">注册</button>
+      <p class="modal-switch"><span id="switchText">还没有账号？</span> <a href="javascript:void(0)" id="switchLink" onclick="toggleMode()">去注册</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- 发帖弹窗 -->
+<div class="modal-overlay" id="postModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📝 发布帖子</h3>
+      <button class="modal-close" onclick="closePostModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="text" id="postTitle" placeholder="帖子标题（最多30字）" maxlength="30">
+      <textarea id="postContent" placeholder="说点什么吧..." maxlength="500" rows="3"></textarea>
+      <div class="char-count"><span id="charLeft">500</span> 字剩余</div>
+      <div class="img-preview-area" id="imgPreview"></div>
+      <label class="upload-btn"><i class="fa-solid fa-image"></i> 添加图片 (<span id="imgCount">0</span>/3)
+        <input type="file" accept="image/*" id="imgInput" style="display:none" onchange="previewImage()">
+      </label>
+      <div id="postError" class="login-error" style="display:none;"></div>
+      <button class="btn btn-main" onclick="submitPost()">发布</button>
+    </div>
+  </div>
+</div>
+
+<!-- 主内容 -->
+<div class="container">
+  <div class="forum-header">
+    <h1>💬 Lumos 论坛</h1>
+    <p>橹毛们的聚集地，分享你眼中的橹杰</p>
+  </div>
+
+  <!-- 登录状态 -->
+  <div class="login-bar">
+    <div id="loginStatus" style="display:none;">
+      <span class="user-avatar" id="myAvatar">忙</span>
+      <span class="user-name" id="myNameDisplay">忙鱼</span>
+      <button class="btn-sm" onclick="doLogout()">退出</button>
+    </div>
+    <div id="loginPrompt">
+      <button class="btn-main" onclick="showLoginModal()"><i class="fa-solid fa-right-to-bracket"></i> 橹毛登录</button>
+      <span class="login-tip"> 登录后发帖</span>
+    </div>
+  </div>
+
+  <!-- 发帖按钮 -->
+  <div class="post-btn-bar" id="postBtnBar" style="display:none;">
+    <button class="btn-post" onclick="showPostModal()"><i class="fa-solid fa-plus"></i> 发帖</button>
+  </div>
+
+  <!-- 帖子列表 -->
+  <div class="post-list" id="postList"></div>
+  <div class="load-more" id="loadMore" style="display:none;">
+    <button onclick="loadMorePosts()">加载更多...</button>
+  </div>
+
+  <!-- 帖子详情 -->
+  <div class="detail-panel" id="detailPanel"></div>
+</div>
+
+<input type="file" accept="image/*" id="hiddenImgInput" style="display:none;">
+
+<script>
+// ============================
+//  工具 + 认证
+// ============================
+var API = window.location.origin;
+var imgFiles = [];
+
+function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
+function fmtTime(t){if(!t)return'';var d=new Date(t.replace(' ','T')+'+08:00');if(isNaN(d.getTime()))return t;var n=new Date(),df=n-d;if(df<6e4)return'刚刚';if(df<36e5)return Math.floor(df/6e4)+'分钟前';if(df<864e5)return Math.floor(df/36e5)+'小时前';return t.split(' ')[0]}
+function avChar(n){return(n||'?').replace(/[^一-龥a-zA-Z0-9]/g,'').charAt(0)||'?'}
+
+function isLogin(){return!!localStorage.getItem('wlj_token')}
+function myName(){return localStorage.getItem('wlj_username')||''}
+function myId(){return localStorage.getItem('wlj_userId')||''}
+function setAuth(t,u,id){localStorage.setItem('wlj_token',t);localStorage.setItem('wlj_username',u);localStorage.setItem('wlj_userId',id)}
+function clrAuth(){localStorage.removeItem('wlj_token');localStorage.removeItem('wlj_username');localStorage.removeItem('wlj_userId')}
+
+async function api(m,p,b){
+  var o={method:m,headers:{'Content-Type':'application/json'}};
+  var t=localStorage.getItem('wlj_token');
+  if(t)o.headers['Authorization']='Bearer '+t;
+  if(b)o.body=JSON.stringify(b);
+  var r=await fetch(API+p,o),d=await r.json();
+  if(!r.ok)throw new Error(d.error||'请求失败');
+  return d;
+}
+
+// ============================
+//  登录/注册弹窗
+// ============================
+var isReg=false;
+function showLoginModal(){document.getElementById('loginModal').style.display='flex';updateModalMode()}
+function closeLoginModal(){document.getElementById('loginModal').style.display='none'}
+function toggleMode(){isReg=!isReg;updateModalMode()}
+function updateModalMode(){
+  document.getElementById('modalTitle').textContent=isReg?'🐟 橹毛注册':'🔑 橹毛登录';
+  document.getElementById('loginBtn').style.display=isReg?'none':'block';
+  document.getElementById('registerBtn').style.display=isReg?'block':'none';
+  document.getElementById('switchText').textContent=isReg?'已有账号？':'还没有账号？';
+  document.getElementById('switchLink').textContent=isReg?'去登录':'去注册';
+  document.getElementById('loginError').style.display='none';
+  document.getElementById('loginUsername').value='';document.getElementById('loginPassword').value='';
+}
+async function doLogin(){
+  var n=document.getElementById('loginUsername').value.trim(),p=document.getElementById('loginPassword').value.trim(),e=document.getElementById('loginError');
+  if(!n||!p){e.textContent='请填写昵称和密码';e.style.display='block';return}
+  try{var d=await api('POST','/api/login',{username:n,password:p});setAuth(d.token,d.user.username,d.user.id);closeLoginModal();updateUI()}catch(ex){e.textContent=ex.message;e.style.display='block'}
+}
+async function doRegister(){
+  var n=document.getElementById('loginUsername').value.trim(),p=document.getElementById('loginPassword').value.trim(),e=document.getElementById('loginError');
+  if(!n){e.textContent='请输入昵称';e.style.display='block';return}
+  if(p.length<6){e.textContent='密码至少6位';e.style.display='block';return}
+  try{var d=await api('POST','/api/register',{username:n,password:p});setAuth(d.token,d.user.username,d.user.id);closeLoginModal();updateUI()}catch(ex){e.textContent=ex.message;e.style.display='block'}
+}
+function doLogout(){clrAuth();updateUI();loadPosts()}
+
+function updateUI(){
+  var l=isLogin();
+  document.getElementById('loginStatus').style.display=l?'':'none';
+  document.getElementById('loginPrompt').style.display=l?'none':'';
+  document.getElementById('postBtnBar').style.display=l?'':'none';
+  if(l){
+    document.getElementById('myAvatar').textContent=avChar(myName());
+    document.getElementById('myNameDisplay').textContent=myName();
+  }
+}
+
+// ============================
+//  发帖弹窗
+// ============================
+function showPostModal(){
+  if(!isLogin()){showLoginModal();return}
+  document.getElementById('postModal').style.display='flex';
+  document.getElementById('postTitle').value='';
+  document.getElementById('postContent').value='';
+  document.getElementById('charLeft').textContent='500';
+  document.getElementById('postError').style.display='none';
+  imgFiles=[];renderImgPreview();
+}
+function closePostModal(){document.getElementById('postModal').style.display='none'}
+
+document.getElementById('postContent').addEventListener('input',function(){
+  document.getElementById('charLeft').textContent=500-this.value.length;
+});
+
+function previewImage(){
+  var f=document.getElementById('imgInput').files[0];
+  if(!f)return;
+  if(f.size>2*1024*1024){alert('图片不能超过2MB');return}
+  if(imgFiles.length>=3){alert('最多3张图片');return}
+  imgFiles.push(f);
+  document.getElementById('imgInput').value='';
+  renderImgPreview();
+}
+function removeImg(i){imgFiles.splice(i,1);renderImgPreview()}
+function renderImgPreview(){
+  document.getElementById('imgPreview').innerHTML=imgFiles.map(function(f,i){
+    return '<div class="img-preview"><img src="'+URL.createObjectURL(f)+'"><button class="img-remove" onclick="removeImg('+i+')">✕</button></div>';
+  }).join('');
+  document.getElementById('imgCount').textContent=imgFiles.length;
+}
+
+async function submitPost(){
+  var title=document.getElementById('postTitle').value.trim();
+  var content=document.getElementById('postContent').value.trim();
+  var err=document.getElementById('postError');
+  if(!title){err.textContent='请输入标题';err.style.display='block';return}
+  if(!content){err.textContent='请输入内容';err.style.display='block';return}
+
+  // 先上传图片
+  var filenames=[];
+  for(var i=0;i<imgFiles.length;i++){
+    var fd=new FormData();fd.append('image',imgFiles[i]);
+    var token=localStorage.getItem('wlj_token');
+    var r=await fetch(API+'/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
+    var d=await r.json();
+    if(!r.ok){err.textContent='图片上传失败: '+(d.error||'');err.style.display='block';return}
+    filenames.push(d.filename);
+  }
+
+  try{
+    await api('POST','/api/posts',{title:title,content:content,images:filenames});
+    closePostModal();
+    currentPage=1;loadPosts();
+  }catch(e){err.textContent=e.message;err.style.display='block'}
+}
+
+// ============================
+//  帖子列表
+// ============================
+var currentPage=1,hasMore=true;
+
+async function loadPosts(){
+  try{
+    var d=await api('GET','/api/posts?page='+currentPage);
+    hasMore=d.hasMore;
+    renderPosts(d.posts,currentPage===1);
+    document.getElementById('loadMore').style.display=d.hasMore?'':'none';
+  }catch(e){
+    document.getElementById('postList').innerHTML='<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>加载失败，请刷新重试</div>';
+  }
+}
+
+function renderPosts(posts,replace){
+  var el=document.getElementById('postList');
+  if(posts.length===0&&replace){
+    el.innerHTML='<div class="empty-state"><i class="fa-solid fa-feather"></i>还没有帖子，来做第一个发帖的橹毛吧 💚</div>';
+    return;
+  }
+  var html=posts.map(function(p){
+    var delBtn='';
+    if(String(p.user_id)===myId()){
+      delBtn='<button class="btn-del-post" onclick="deletePost('+p.id+');event.stopPropagation();" title="删除">✕</button>';
+    }
+    return '<div class="post-card" onclick="openPost('+p.id+')">'+
+      '<div class="post-card-avatar">'+avChar(p.username)+'</div>'+
+      '<div class="post-card-body">'+
+        '<div class="post-card-title">'+esc(p.title)+'</div>'+
+        '<div class="post-card-preview">'+esc(p.content).substring(0,80)+(p.content.length>80?'...':'')+'</div>'+
+        '<div class="post-card-meta">'+esc(p.username)+' · '+fmtTime(p.created_at)+' · <i class="fa-solid fa-comment"></i> '+(p.comment_count||0)+'</div>'+
+      '</div>'+delBtn+
+    '</div>';
+  }).join('');
+  if(replace)el.innerHTML=html;else el.innerHTML+=html;
+}
+
+function loadMorePosts(){currentPage++;loadPosts()}
+
+// ============================
+//  帖子详情
+// ============================
+var currentPostId=null;
+
+async function openPost(pid){
+  try{
+    var d=await api('GET','/api/posts/'+pid);
+    currentPostId=pid;
+    renderDetail(d.post,d.comments);
+    document.getElementById('postList').style.display='none';
+    document.getElementById('loadMore').style.display='none';
+    document.getElementById('detailPanel').style.display='block';
+  }catch(e){alert('加载帖子失败')}
+}
+
+function backToList(){
+  document.getElementById('detailPanel').style.display='none';
+  document.getElementById('postList').style.display='';
+  if(hasMore)document.getElementById('loadMore').style.display='';
+}
+
+function renderDetail(post,comments){
+  var imgs='';
+  if(post.images&&post.images.length>0){
+    imgs='<div class="detail-images">'+post.images.map(function(f){
+      return '<img src="'+API+'/uploads/'+f+'" onclick="window.open(this.src)">';
+    }).join('')+'</div>';
+  }
+  var delBtn='';
+  if(String(post.user_id)===myId()){
+    delBtn='<button class="btn-sm" onclick="deletePost('+post.id+')" style="margin-left:8px;">删除帖子</button>';
+  }
+
+  var html='<button class="detail-back" onclick="backToList()"><i class="fa-solid fa-arrow-left"></i> 返回列表</button>'+
+    '<div class="detail-title">'+esc(post.title)+'</div>'+
+    '<div class="detail-meta">'+esc(post.username)+' · '+fmtTime(post.created_at)+delBtn+'</div>'+
+    '<div class="detail-content">'+esc(post.content)+'</div>'+imgs+
+    '<div class="detail-comments-title"><i class="fa-solid fa-comments"></i> 评论 ('+comments.length+')</div>'+
+    '<div class="detail-comments">'+renderPostComments(comments)+'</div>';
+
+  if(isLogin()){
+    html+='<div class="comment-input-row"><input id="detailCommentInput" placeholder="写评论..." maxlength="200"><button onclick="submitPostComment()"><i class="fa-solid fa-paper-plane"></i></button></div>';
+  }else{
+    html+='<p style="text-align:center;color:#bbb;font-size:0.85rem;margin-top:8px;">请<a href="javascript:void(0)" onclick="showLoginModal()" style="color:var(--green-dark);">登录</a>后评论</p>';
+  }
+
+  document.getElementById('detailPanel').innerHTML=html;
+
+  // Enter to submit
+  var inp=document.getElementById('detailCommentInput');
+  if(inp)inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();submitPostComment()}});
+}
+
+function renderPostComments(cs){
+  if(!cs||cs.length===0)return'<p style="color:#bbb;font-size:0.85rem;text-align:center;padding:20px;">暂无评论</p>';
+  return cs.map(function(c){
+    var cls=(c.username==='忙鱼')?'mangyu':(String(c.user_id)===myId()?'self':'other');
+    var del='';
+    if(String(c.user_id)===myId()){
+      del='<button class="btn-del-comment" onclick="deleteComment('+c.post_id+','+c.id+')">✕</button>';
+    }
+    return'<div class="comment-item">'+
+      '<div class="comment-avatar '+cls+'">'+avChar(c.username)+'</div>'+
+      '<div class="comment-body"><div class="comment-header">'+
+        '<span class="comment-name'+(cls==='self'?' is-self':'')+'">'+esc(c.username)+'</span>'+
+        '<span class="comment-time">'+fmtTime(c.created_at)+'</span></div>'+
+        '<div class="comment-text">'+esc(c.content)+'</div></div>'+del+
+    '</div>';
+  }).join('');
+}
+
+async function submitPostComment(){
+  var inp=document.getElementById('detailCommentInput');
+  var t=inp.value.trim();
+  if(!t)return;
+  try{
+    await api('POST','/api/posts/'+currentPostId+'/comments',{content:t});
+    openPost(currentPostId);
+  }catch(e){alert(e.message)}
+}
+
+async function deletePost(pid){
+  if(!confirm('确定删除帖子？'))return;
+  try{await api('DELETE','/api/posts/'+pid);backToList();currentPage=1;loadPosts()}catch(e){alert(e.message)}
+}
+
+async function deleteComment(pid,cid){
+  if(!confirm('确定删除评论？'))return;
+  try{await api('DELETE','/api/posts/'+pid+'/comments/'+cid);openPost(pid)}catch(e){alert(e.message)}
+}
+
+// ============================
+//  SSE 实时
+// ============================
+function setupSSE(){
+  var es=new EventSource(API+'/api/events');
+  es.onmessage=function(e){
+    try{var d=JSON.parse(e.data);
+      if(d.type==='new_post'){currentPage=1;loadPosts()}
+      if(d.type==='new_post_comment'&&currentPostId===d.postId){openPost(currentPostId)}
+    }catch(ex){}
+  };
+}
+
+// ============================
+//  启动
+// ============================
+updateUI();loadPosts();setupSSE();if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
+</script>
+</body>
+</html>
