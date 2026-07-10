@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>忙鱼の橹杰收藏馆 — 王橹杰应援站 · 纪念版</title>
+  <meta name="description" content="忙鱼专属的王橹杰应援收藏站。王橹杰，TF家族四代练习生，门面主唱。纪念版 — 2025.12 ~ 2026.07">
+  <meta name="theme-color" content="#2D5A3D">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="橹杰收藏馆">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>💚</text></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%' stop-color='%237EC8A0'/><stop offset='100%' stop-color='%232D5A3D'/></linearGradient></defs><circle cx='90' cy='90' r='86' fill='url(%23g)'/><text x='90' y='125' text-anchor='middle' font-size='100'>💚</text></svg>">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root{
+      --green:#7EC8A0;--green-dark:#2D5A3D;--green-deep:#1a3a28;
+      --gold:#C9A96E;--gold-light:#e4d5b7;
+      --bg:#f5faf7;--white:#fff;--text:#2c3e2d;--text-light:#5a7a5e;
+      --shadow:0 4px 24px rgba(45,90,61,0.08);--shadow-lg:0 12px 40px rgba(45,90,61,0.12);
+      --radius:16px;--radius-sm:10px;--max-width:1100px;--nav-height:64px;
+      --touch-min:44px;
+      --transition-smooth:0.35s cubic-bezier(0.4,0,0.2,1);
+      --transition-bounce:0.4s cubic-bezier(0.34,1.56,0.64,1);
+      --green-glow:0 0 0 3px rgba(126,200,160,0.25);
+      --border-subtle:rgba(126,200,160,0.15);
+      --fs-h1:clamp(2.6rem,5vw,5rem);
+      --fs-h2:clamp(1.5rem,3vw,2.2rem);
+      --fs-h3:clamp(1rem,2vw,1.3rem);
+      --fs-body:clamp(0.88rem,1.5vw,1rem);
+      --fs-small:clamp(0.75rem,1.2vw,0.88rem);
+      --fs-xs:clamp(0.68rem,1vw,0.8rem);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:var(--nav-height)}
+    body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.7;overflow-x:hidden}
+    h1,h2,h3{font-family:"Noto Serif SC","STSong",serif;font-weight:700}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* === Navbar === */
+    .navbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:var(--nav-height);background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;transition:box-shadow var(--transition-smooth)}
+    .navbar.scrolled{box-shadow:0 2px 20px rgba(45,90,61,0.1)}
+    .nav-inner{width:100%;max-width:var(--max-width);padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:"Noto Serif SC",serif;font-size:var(--fs-h3);font-weight:700;color:var(--green-dark);white-space:nowrap}
+    .nav-logo i{color:var(--gold);margin-right:4px}
+    .nav-badge{display:inline-block;font-size:0.6rem;background:var(--gold);color:#fff;padding:1px 6px;border-radius:8px;vertical-align:middle;margin-left:4px;letter-spacing:1px}
+    .nav-links{display:flex;gap:6px;list-style:none;flex-wrap:wrap;justify-content:flex-end}
+    .nav-links a{padding:clamp(8px,1.5vw,10px) clamp(12px,2vw,16px);border-radius:20px;font-size:var(--fs-small);color:var(--text-light);transition:all var(--transition-smooth);white-space:nowrap;min-height:var(--touch-min);display:inline-flex;align-items:center}
+    .nav-links a:hover,.nav-links a.active{color:var(--green-dark);background:rgba(126,200,160,0.15)}
+    .hamburger{display:none;background:none;border:none;font-size:1.4rem;color:var(--green-dark);cursor:pointer;padding:8px;min-width:var(--touch-min);min-height:var(--touch-min);align-items:center;justify-content:center}
+
+    /* === Section Layout === */
+    .section{padding:clamp(56px,8vw,100px) clamp(16px,3vw,24px)}
+    .section-inner{max-width:var(--max-width);margin:0 auto}
+    .section-title{text-align:center;margin-bottom:clamp(36px,5vw,56px)}
+    .section-title h2{font-size:var(--fs-h2);color:var(--green-dark);margin-bottom:8px}
+    .section-title .line{width:50px;height:3px;background:linear-gradient(90deg,var(--green),var(--gold));margin:12px auto 0;border-radius:2px}
+    .section-title p{color:var(--text-light);font-size:var(--fs-body)}
+    .section-divider{height:clamp(40px,5vw,70px);background:linear-gradient(to bottom right,transparent 49%,var(--bg) 50%);margin-top:-1px;position:relative;z-index:1;pointer-events:none}
+
+    /* === Hero === */
+    .hero{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(135deg,#1a3a28 0%,#2D5A3D 40%,#3a6e4a 100%);overflow:hidden}
+    .hero-bg{position:absolute;inset:-10% 0 0 0;z-index:0}
+    .hero-bg img{width:100%;height:110%;object-fit:cover;opacity:0.45;filter:brightness(0.8);will-change:transform}
+    .hero-overlay{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(26,58,40,0.55) 0%,rgba(26,58,40,0.3) 50%,rgba(26,58,40,0.75) 100%)}
+    .hero-content{position:relative;z-index:2;text-align:center;color:#fff;padding:24px}
+    .hero-content .badge{display:inline-block;padding:6px 20px;border:1px solid var(--gold);border-radius:25px;color:var(--gold-light);font-size:var(--fs-small);letter-spacing:3px;margin-bottom:28px;backdrop-filter:blur(4px);background:rgba(201,169,110,0.1);animation:badgeGlow 3s ease-in-out infinite}
+    @keyframes badgeGlow{0%,100%{box-shadow:0 0 8px rgba(201,169,110,0.15)}50%{box-shadow:0 0 20px rgba(201,169,110,0.35)}}
+    .hero-content h1{font-size:var(--fs-h1);letter-spacing:clamp(4px,1.5vw,10px);margin-bottom:12px;text-shadow:0 2px 20px rgba(0,0,0,0.3)}
+    .hero-content .subtitle{font-size:var(--fs-h3);color:rgba(255,255,255,0.85);letter-spacing:2px;margin-bottom:16px}
+    .hero-content .meta{font-size:var(--fs-body);color:rgba(255,255,255,0.65);letter-spacing:1px}
+    .hero-content .dedication{margin-top:14px;font-size:var(--fs-small);color:var(--gold-light);letter-spacing:1px}
+    .hero-scroll{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;color:rgba(255,255,255,0.7);font-size:var(--fs-xs);letter-spacing:2px;animation:bounce 2s ease-in-out infinite;cursor:pointer}
+    .hero-scroll i{display:block;font-size:1.3rem;margin-top:6px}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+
+    /* === Profile === */
+    .profile-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(24px,4vw,48px);align-items:center}
+    .profile-photo{border-radius:var(--radius);box-shadow:var(--shadow-lg);aspect-ratio:3/4;overflow:hidden;transition:transform var(--transition-smooth)}
+    .profile-photo:hover{transform:scale(1.02)}
+    .profile-photo img{width:100%;height:100%;object-fit:cover}
+    .profile-info{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+    .info-item{padding:12px 0;border-bottom:1px dashed var(--border-subtle);transition:border-color var(--transition-smooth)}
+    .info-item:hover{border-bottom-color:var(--green)}
+    .info-item .label{font-size:var(--fs-xs);color:var(--text-light);letter-spacing:1px;margin-bottom:2px}
+    .info-item .value{font-size:var(--fs-body);font-weight:600;color:var(--green-deep)}
+    .info-item.full{grid-column:1/-1}
+
+    /* === Mangyu card === */
+    .mangyu-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:clamp(24px,4vw,36px) clamp(20px,3vw,32px);max-width:650px;margin:0 auto;text-align:center;border:2px dashed var(--green);position:relative;transition:transform var(--transition-smooth),border-color var(--transition-smooth)}
+    .mangyu-card:hover{transform:scale(1.01);border-color:var(--gold)}
+    .mangyu-card .fish-icon{font-size:2.5rem;margin-bottom:8px;display:inline-block;animation:fishFloat 3s ease-in-out infinite}
+    @keyframes fishFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .mangyu-card h2{font-size:var(--fs-h3);color:var(--green-dark);margin-bottom:6px}
+    .mangyu-card .mangyu-subtitle{font-size:var(--fs-small);color:var(--text-light);margin-bottom:24px}
+    .mangyu-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;text-align:left}
+    .mangyu-field{background:#fafdfb;border-radius:var(--radius-sm);padding:12px 16px;border:1px solid #d4ede0;transition:border-color var(--transition-smooth),box-shadow var(--transition-smooth);cursor:pointer}
+    .mangyu-field:hover{border-color:var(--green)}
+    .mangyu-field:focus-within{border-color:var(--green-dark);box-shadow:var(--green-glow)}
+    .mangyu-field .f-label{font-size:var(--fs-xs);color:var(--text-light);letter-spacing:1px;margin-bottom:2px}
+    .mangyu-field .f-value{font-size:var(--fs-body);color:var(--green-deep);font-weight:600;outline:none;word-break:break-all}
+    .mangyu-field .f-value:empty::before{content:attr(data-placeholder);color:#bbb;font-weight:400}
+    .mangyu-field .f-value:focus{color:var(--green-dark)}
+
+    /* === Timeline === */
+    .timeline{position:relative;padding:20px 0}
+    .timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--green),var(--gold));transform:translateX(-50%)}
+    .timeline-item{display:flex;align-items:flex-start;margin-bottom:clamp(28px,4vw,40px);position:relative}
+    .timeline-item:nth-child(odd){flex-direction:row}
+    .timeline-item:nth-child(even){flex-direction:row-reverse}
+    .timeline-dot{position:absolute;left:50%;top:6px;transform:translateX(-50%);width:18px;height:18px;background:var(--green);border:3px solid #fff;border-radius:50%;box-shadow:0 0 0 3px var(--green);z-index:2;transition:transform var(--transition-smooth),background var(--transition-smooth)}
+    .timeline-item:hover .timeline-dot{transform:translateX(-50%) scale(1.3);background:var(--gold)}
+    .timeline-content{width:45%;padding:clamp(16px,2vw,20px) clamp(18px,2vw,24px);background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);transition:transform var(--transition-smooth),box-shadow var(--transition-smooth)}
+    .timeline-item:hover .timeline-content{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+    .timeline-content .year{font-size:var(--fs-xs);color:var(--green);font-weight:700;letter-spacing:2px;margin-bottom:4px}
+    .timeline-content h3{font-size:var(--fs-h3);color:var(--green-dark);margin-bottom:4px}
+    .timeline-content p{font-size:var(--fs-body);color:var(--text-light)}
+
+    /* === Stats === */
+    .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,24px)}
+    .stat-card{background:var(--white);border-radius:var(--radius);padding:clamp(20px,4vw,32px) clamp(14px,3vw,20px);text-align:center;box-shadow:var(--shadow);transition:transform var(--transition-smooth),box-shadow var(--transition-smooth);border-top:3px solid transparent;position:relative;overflow:hidden}
+    .stat-card:nth-child(1){border-top-color:var(--green)}.stat-card:nth-child(2){border-top-color:var(--gold)}.stat-card:nth-child(3){border-top-color:var(--green-dark)}.stat-card:nth-child(4){border-top-color:var(--green)}.stat-card:nth-child(5){border-top-color:var(--gold)}.stat-card:nth-child(6){border-top-color:var(--green-dark)}
+    .stat-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+    .stat-card::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent);transition:left 0.6s}
+    .stat-card:hover::after{left:100%}
+    .stat-card .number{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;background:linear-gradient(135deg,var(--green-dark),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .stat-card .unit{font-size:var(--fs-body);color:var(--green-dark);font-weight:700}
+    .stat-card .desc{font-size:var(--fs-small);color:var(--text-light);margin-top:8px}
+
+    /* === Works === */
+    .works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,24px)}
+    .work-card{background:var(--white);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:transform var(--transition-smooth),box-shadow var(--transition-smooth);cursor:pointer}
+    .work-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+    .work-card .thumb{aspect-ratio:16/10;overflow:hidden}
+    .work-card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
+    .work-card:hover .thumb img{transform:scale(1.08)}
+    .work-card .work-info{padding:clamp(12px,2vw,16px) clamp(14px,2vw,18px)}
+    .work-card .work-info h3{font-size:var(--fs-h3);color:var(--green-dark)}
+    .work-card .work-info p{font-size:var(--fs-small);color:var(--text);margin-top:6px;line-height:1.5}
+    .work-card.favorite{border:2px solid var(--gold);position:relative}
+    .work-card.favorite::after{content:'💚 忙鱼最爱';position:absolute;top:10px;left:10px;z-index:5;background:var(--gold);color:#fff;font-size:0.7rem;padding:3px 10px;border-radius:10px;font-weight:700}
+
+    /* === Lightbox === */
+    .lightbox{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s ease}
+    .lightbox.open{opacity:1;pointer-events:auto}
+    .lightbox img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px;transform:scale(0.95);transition:transform 0.35s ease}
+    .lightbox.open img{transform:scale(1)}
+    .lightbox-close{position:absolute;top:clamp(12px,2vw,20px);right:clamp(16px,2vw,28px);background:none;border:none;color:#fff;font-size:clamp(1.8rem,3vw,2.4rem);cursor:pointer;width:var(--touch-min);height:var(--touch-min);display:flex;align-items:center;justify-content:center;opacity:0.7;transition:opacity var(--transition-smooth)}
+    .lightbox-close:hover{opacity:1}
+
+    /* Toast */
+    .toast-container{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+    .toast{background:rgba(26,58,40,0.92);color:#fff;padding:10px 24px;border-radius:20px;font-size:0.85rem;box-shadow:0 4px 16px rgba(0,0,0,0.15);animation:toastIn 0.3s ease;pointer-events:auto;max-width:80vw;text-align:center;backdrop-filter:blur(8px)}
+    @keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+    /* === Hitchcock === */
+    .hitchcock-section{background:linear-gradient(180deg,#0d0d0d 0%,#1a1a2e 30%,#16213e 70%,#1a3a28 100%);color:#fff;padding:clamp(60px,8vw,100px) 24px;position:relative;overflow:hidden}
+    .hitchcock-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(201,169,110,0.08) 0%,transparent 70%);pointer-events:none}
+    .hitchcock-inner{max-width:var(--max-width);margin:0 auto;position:relative;z-index:1}
+    .hitchcock-header{text-align:center;margin-bottom:40px}
+    .hitchcock-header .hitchcock-badge{display:inline-block;padding:6px 20px;border:1px solid var(--gold);border-radius:25px;color:var(--gold-light);font-size:var(--fs-xs);letter-spacing:3px;margin-bottom:12px}
+    .hitchcock-header h2{font-size:clamp(1.8rem,4vw,2.8rem);color:#fff;letter-spacing:4px;margin-bottom:4px}
+    .hitchcock-header .mangyu-tag{display:inline-block;background:var(--gold);color:#1a3a28;padding:4px 14px;border-radius:12px;font-size:var(--fs-xs);font-weight:700;margin-top:8px}
+    .hitchcock-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,40px);align-items:center}
+    .hitchcock-photo{aspect-ratio:3/4;max-width:450px;margin:0 auto;border-radius:var(--radius);overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.5);border:2px solid rgba(201,169,110,0.3);transition:transform var(--transition-smooth)}
+    .hitchcock-photo:hover{transform:scale(1.02)}
+    .hitchcock-photo img{width:100%;height:100%;object-fit:cover}
+    .hitchcock-info{display:flex;flex-direction:column;gap:clamp(10px,1.5vw,16px)}
+    .hitchcock-info .h-info-item{background:rgba(255,255,255,0.05);border-left:3px solid var(--gold);padding:clamp(10px,1.5vw,14px) clamp(14px,2vw,18px);border-radius:0 var(--radius-sm) var(--radius-sm) 0;transition:background var(--transition-smooth)}
+    .hitchcock-info .h-info-item:hover{background:rgba(255,255,255,0.08)}
+    .hitchcock-info .h-label{font-size:var(--fs-xs);color:var(--gold-light);letter-spacing:2px;margin-bottom:2px}
+    .hitchcock-info .h-value{font-size:var(--fs-body);color:rgba(255,255,255,0.9)}
+    .hitchcock-note{background:rgba(201,169,110,0.1);border:1px dashed rgba(201,169,110,0.3);border-radius:var(--radius-sm);padding:clamp(14px,2vw,18px) 20px;margin-top:8px;text-align:center;animation:hitchcockFloat 6s ease-in-out infinite}
+    @keyframes hitchcockFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+    .hitchcock-note .note-title{font-size:var(--fs-xs);color:var(--gold-light);letter-spacing:2px;margin-bottom:6px}
+    .hitchcock-note .note-text{font-size:var(--fs-body);color:rgba(255,255,255,0.75);font-style:italic}
+
+    /* === Footer === */
+    .footer{background:var(--green-deep);color:rgba(255,255,255,0.8);text-align:center;padding:clamp(32px,4vw,48px) 24px;font-size:var(--fs-small);border-top:2px solid rgba(201,169,110,0.15)}
+    .footer .social-links{margin:16px 0;display:flex;justify-content:center;gap:clamp(16px,3vw,24px);font-size:1.5rem}
+    .footer .social-links a{color:rgba(255,255,255,0.55);transition:color var(--transition-smooth),transform var(--transition-bounce);display:inline-flex;width:var(--touch-min);height:var(--touch-min);align-items:center;justify-content:center}
+    .footer .social-links a:hover{color:var(--gold-light);transform:scale(1.25)}
+    .footer .endline{margin-top:12px;color:rgba(255,255,255,0.45);letter-spacing:2px}
+
+    /* === Back to top === */
+    .back-to-top{position:fixed;bottom:28px;right:28px;z-index:999;width:var(--touch-min);height:var(--touch-min);border-radius:50%;background:var(--green-dark);color:#fff;border:none;cursor:pointer;font-size:1.1rem;box-shadow:0 4px 16px rgba(45,90,61,0.3);opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity var(--transition-smooth),transform var(--transition-smooth),background var(--transition-smooth)}
+    .back-to-top.show{opacity:1;transform:translateY(0);pointer-events:auto;animation:btnPulse 0.6s ease-out}
+    .back-to-top:hover{background:var(--green);transform:translateY(-3px)}
+    @keyframes btnPulse{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-8px) scale(1.1)}100%{transform:translateY(0) scale(1)}}
+
+    /* === Guestbook static === */
+    .memorial-note{text-align:center;padding:14px 20px;background:rgba(201,169,110,0.08);border:1px dashed rgba(201,169,110,0.35);border-radius:var(--radius-sm);max-width:600px;margin:0 auto 20px;font-size:var(--fs-small);color:var(--text-light);line-height:1.6}
+    .memorial-note i{color:var(--gold);margin:0 3px}
+    .comment-item{display:flex;gap:10px;padding:14px 0;border-bottom:1px solid #f0f0f0;animation:commentSlideIn .35s ease-out}
+    .comment-item:last-child{border-bottom:none}
+    @keyframes commentSlideIn{from{opacity:0;transform:translateY(-8px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+    .comment-avatar{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:var(--fs-small);color:#fff}
+    .comment-avatar.mangyu{background:linear-gradient(135deg,var(--green-dark),var(--gold))}
+    .comment-avatar.other{background:var(--gold)}
+    .comment-body{flex:1;min-width:0}
+    .comment-header{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
+    .comment-name{font-weight:600;font-size:var(--fs-body);color:var(--green-dark)}
+    .comment-time{font-size:var(--fs-xs);color:var(--text-light)}
+    .comment-text{font-size:var(--fs-body);color:var(--text);word-break:break-word;line-height:1.6}
+    .comments-empty{text-align:center;padding:60px 20px;color:var(--text-light);font-size:var(--fs-body)}
+    .comments-list{max-width:600px;margin:0 auto;min-height:100px}
+
+    /* === Responsive === */
+    @media(max-width:900px){
+      .hitchcock-grid{grid-template-columns:1fr;gap:28px}.hitchcock-photo{aspect-ratio:3/4;max-width:300px}
+      .profile-grid{grid-template-columns:1fr;gap:32px}.profile-photo{max-width:360px;margin:0 auto}
+      .works-grid{grid-template-columns:repeat(2,1fr)}
+      .stats-grid{grid-template-columns:repeat(2,1fr)}
+      .timeline::before{left:20px}.timeline-item,.timeline-item:nth-child(even){flex-direction:row;padding-left:40px}
+      .timeline-content{width:100%}.timeline-dot{left:20px;width:14px;height:14px}
+      .timeline-item:hover .timeline-content{transform:translateX(3px)}
+      .nav-links{display:flex;position:absolute;top:var(--nav-height);left:0;right:0;background:rgba(255,255,255,0.98);flex-direction:column;padding:12px 16px;gap:2px;border-bottom:1px solid var(--border-subtle);box-shadow:0 8px 24px rgba(0,0,0,0.06);opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity 0.25s ease,transform 0.25s ease}
+      .nav-links.open{opacity:1;transform:translateY(0);pointer-events:auto}
+      .nav-links a{min-height:var(--touch-min);display:flex;align-items:center;padding:10px 16px;font-size:var(--fs-body)}
+      .hamburger{display:flex}
+      .mangyu-fields{grid-template-columns:1fr}
+    }
+    @media(max-width:600px){
+      .section{padding:48px 14px}
+      .hero-content h1{font-size:2.4rem;letter-spacing:4px}
+      .works-grid{grid-template-columns:1fr}.work-card .thumb{aspect-ratio:4/3}
+      .stats-grid{grid-template-columns:1fr 1fr}.stat-card .number{font-size:1.8rem}
+      .profile-info{grid-template-columns:1fr}
+      .timeline-content{padding:14px 16px}
+      .comment-avatar{width:40px;height:40px}
+    }
+    @media(max-width:400px){
+      .section{padding:40px 10px}
+      .profile-photo{max-width:260px;aspect-ratio:1/1}
+      .stats-grid{grid-template-columns:1fr;gap:12px}
+      .stat-card{padding:18px 14px}.stat-card .number{font-size:1.6rem}
+      .hitchcock-photo{max-width:240px}
+      .hero-content h1{font-size:1.9rem;letter-spacing:2px}
+      .works-grid{gap:12px}.work-card .work-info{padding:10px 12px}
+      .comments-list{padding:0 4px}
+      .back-to-top{bottom:16px;right:16px}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar" id="navbar" role="navigation" aria-label="主导航">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo"><i class="fa-solid fa-star"></i>忙鱼の橹杰收藏馆<span class="nav-badge">纪念版</span></a>
+    <button class="hamburger" id="hamburger" aria-label="主菜单" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#profile">个人档案</a></li>
+      <li><a href="#mangyu">忙鱼档案</a></li>
+      <li><a href="#hitchcock">希区考克</a></li>
+      <li><a href="#timeline">演艺经历</a></li>
+      <li><a href="#stats">人气里程碑</a></li>
+      <li><a href="#works">舞台作品</a></li>
+      <li><a href="#guestbook">留言板</a></li>
+      <li><a href="forum.html">💬 论坛</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <div class="hero-bg"><img src="hero.jpg" alt="王橹杰封面" id="heroBgImg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+    <div class="badge">🐟 忙鱼 · 第四代练习生</div>
+    <h1>王 橹 杰</h1>
+    <p class="subtitle">门面主唱 · Lumos 永远为你照亮</p>
+    <p class="meta">🎂 2010.01.08 · 摩羯座 · 彝族 · 成都</p>
+    <p class="dedication">💚 谨以此站，献给最可爱的粉丝 — 忙鱼！</p>
+  </div>
+  <div class="hero-scroll" onclick="document.getElementById('profile').scrollIntoView()">向下探索 <br><i class="fa-solid fa-chevron-down"></i></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 个人档案 -->
+<section class="section" id="profile"><div class="section-inner">
+  <div class="section-title" data-aos="fade-up"><h2>📋 个人档案</h2><div class="line"></div><p>王橹杰 · 基本资料卡</p></div>
+  <div class="profile-grid">
+    <div class="profile-photo" data-aos="fade-right"><img src="profile.jpg" alt="王橹杰个人照片" loading="lazy"></div>
+    <div class="profile-info" data-aos="fade-left">
+      <div class="info-item"><div class="label">本名</div><div class="value">王橹杰</div></div>
+      <div class="info-item"><div class="label">昵称</div><div class="value">橹橹 · 困困 · 豚豚</div></div>
+      <div class="info-item"><div class="label">出生日期</div><div class="value">2010年1月8日</div></div>
+      <div class="info-item"><div class="label">星座 / 生肖</div><div class="value">摩羯座 · 牛</div></div>
+      <div class="info-item"><div class="label">出生地</div><div class="value">四川省成都市</div></div>
+      <div class="info-item"><div class="label">民族</div><div class="value">彝族</div></div>
+      <div class="info-item"><div class="label">身高</div><div class="value">183cm+（成长中）</div></div>
+      <div class="info-item"><div class="label">经纪公司</div><div class="value">北京时代峰峻</div></div>
+      <div class="info-item"><div class="label">公开日期</div><div class="value">2022年10月6日</div></div>
+      <div class="info-item"><div class="label">粉丝名</div><div class="value">Lumos ✨</div></div>
+      <div class="info-item"><div class="label">应援色</div><div class="value">碧玉澜诗</div></div>
+      <div class="info-item"><div class="label">队内定位</div><div class="value">门面主唱 🎤</div></div>
+      <div class="info-item"><div class="label">特长</div><div class="value">唱歌 · 小提琴 · 钢琴</div></div>
+      <div class="info-item full"><div class="label">代表作品</div><div class="value">《希区考克》《克卜勒》《新贵妃醉酒》《来自天堂的魔鬼》《浪漫纯属虚构》《落日只会道别》</div></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="section-divider"></div>
+
+<!-- 忙鱼档案 -->
+<section class="section" id="mangyu" style="background:linear-gradient(135deg,#f5faf7,#e8f5ee);"><div class="section-inner">
+  <div class="mangyu-card" data-aos="fade-up">
+    <div class="fish-icon">🐟</div>
+    <h2>忙鱼粉丝档案</h2>
+    <p class="mangyu-subtitle">这里属于王橹杰最特别的一位粉丝 —— 忙鱼 💚✨ 点击任意字段直接编辑</p>
+    <div class="mangyu-fields" id="mangyuFields">
+      <div class="mangyu-field" onclick="startEdit(this)"><div class="f-label">🐟 你的昵称</div><div class="f-value" data-key="nickname" data-placeholder="忙鱼" contenteditable="true">忙鱼</div></div>
+      <div class="mangyu-field" onclick="startEdit(this)"><div class="f-label">📅 入坑日期</div><div class="f-value" data-key="date" data-placeholder="2025.12.06" contenteditable="true">2025.12.06</div></div>
+      <div class="mangyu-field" onclick="startEdit(this)"><div class="f-label">💚 最喜欢他的</div><div class="f-value" data-key="reason" data-placeholder="唱歌时的样子" contenteditable="true">唱歌时的样子</div></div>
+      <div class="mangyu-field" onclick="startEdit(this)"><div class="f-label">🎵 入坑舞台</div><div class="f-value" data-key="stage" data-placeholder="《希区考克》" contenteditable="true">《希区考克》</div></div>
+      <div class="mangyu-field" onclick="startEdit(this)"><div class="f-label">✨ 对橹杰说的话</div><div class="f-value" data-key="message" data-placeholder="会一直支持你" contenteditable="true">会一直支持你</div></div>
+      <div class="mangyu-field" onclick="startEdit(this)"><div class="f-label">🏠 你的城市</div><div class="f-value" data-key="city" data-placeholder="成都" contenteditable="true">成都</div></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="section-divider"></div>
+
+<!-- 希区考克 -->
+<section class="hitchcock-section"><div class="hitchcock-inner">
+  <div class="hitchcock-header" data-aos="fade-up">
+    <div class="hitchcock-badge">✨ 忙鱼最爱的舞台 ✨</div>
+    <h2>《希区考克》</h2>
+    <div class="mangyu-tag">🐟 忙鱼心中封神舞台 · 反复观看无数遍</div>
+  </div>
+  <div class="hitchcock-grid">
+    <div class="hitchcock-photo" data-aos="fade-right"><img src="hitchcock.jpg" alt="希区考克舞台照" loading="lazy"></div>
+    <div class="hitchcock-info" data-aos="fade-left">
+      <div class="h-info-item"><div class="h-label">🎤 表演曲目</div><div class="h-value">《希区考克》— 2026新年音乐会 SOLO舞台</div></div>
+      <div class="h-info-item"><div class="h-label">🎭 造型亮点</div><div class="h-value">白发挑染 + 羽毛眼链 + 改良西装，暗黑系少年感爆棚</div></div>
+      <div class="h-info-item"><div class="h-label">📹 直拍版本</div><div class="h-value">四机位 4K 超清直拍 · 竖屏版同步释出</div></div>
+      <div class="h-info-item"><div class="h-label">🔥 出圈热度</div><div class="h-value">#王橹杰希区考克# 登上微博热搜 · B站直拍播放量持续飙升</div></div>
+      <div class="hitchcock-note"><div class="note-title">🐟 忙鱼心中的封神现场</div><div class="note-text">"2026年1月看到这个舞台后，直接被锤进坑底，再也出不来了。"</div></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="section-divider"></div>
+
+<!-- 演艺经历 -->
+<section class="section" id="timeline" style="background:#f5faf7;"><div class="section-inner">
+  <div class="section-title" data-aos="fade-up"><h2>⏳ 演艺经历</h2><div class="line"></div><p>从小小少年到舞台上的闪光练习生</p></div>
+  <div class="timeline">
+    <div class="timeline-item" data-aos="fade-up"><div class="timeline-dot"></div><div class="timeline-content"><div class="year">🎂 2010.01.08</div><h3>出生于四川成都</h3><p>王橹杰在四川省成都市出生，彝族少年，从小展现出音乐天赋。</p></div></div>
+    <div class="timeline-item" data-aos="fade-up"><div class="timeline-dot"></div><div class="timeline-content"><div class="year">🌟 2022.10</div><h3>以TF家族四代练习生身份公开</h3><p>正式以时代峰峻第四代练习生身份亮相，参加自制综艺及各类演出活动。</p></div></div>
+    <div class="timeline-item" data-aos="fade-up"><div class="timeline-dot"></div><div class="timeline-content"><div class="year">💿 2024.10</div><h3>随团体发行首张EP</h3><p>发行EP《危险的关系OST》，演唱《浪漫纯属虚构》《落日只会道别》。</p></div></div>
+    <div class="timeline-item" data-aos="fade-up"><div class="timeline-dot"></div><div class="timeline-content"><div class="year">🏃 2025</div><h3>夏日运动会 & 团体单曲</h3><p>参加TF家族夏日运动会；发行团体单曲《心动》《适合，不适合》。</p></div></div>
+    <div class="timeline-item" data-aos="fade-up"><div class="timeline-dot"></div><div class="timeline-content"><div class="year">🎵 2025.12</div><h3>"荣耀"2026新年音乐会</h3><p>表演《希区考克》《来自天堂的魔鬼》等舞台，白发挑染+羽毛眼链造型惊艳全场。</p></div></div>
+    <div class="timeline-item" data-aos="fade-up"><div class="timeline-dot"></div><div class="timeline-content"><div class="year">🎭 2026.02</div><h3>参演首部电视剧</h3><p>参演青春校园剧《我们的少年时代2》，饰演付彬言，开启演员之路。</p></div></div>
+  </div>
+</div></section>
+
+<div class="section-divider"></div>
+
+<!-- 人气里程碑 -->
+<section class="section" id="stats"><div class="section-inner">
+  <div class="section-title" data-aos="fade-up"><h2>🏆 人气里程碑</h2><div class="line"></div><p>数据记录他的每一步成长</p></div>
+  <div class="stats-grid">
+    <div class="stat-card" data-aos="zoom-in"><div class="number"><span class="count" data-target="111">0</span><span class="unit">&nbsp;分钟</span></div><div class="desc">个人内容百万点赞最快纪录</div></div>
+    <div class="stat-card" data-aos="zoom-in" data-aos-delay="100"><div class="number"><span class="count" data-target="2711">0</span><span class="unit">&nbsp;万+</span></div><div class="desc">《Lovely》合作舞台播放量</div></div>
+    <div class="stat-card" data-aos="zoom-in" data-aos-delay="200"><div class="number"><span class="count" data-target="1200">0</span><span class="unit">&nbsp;万+</span></div><div class="desc">《刀马舞》单日播放量</div></div>
+    <div class="stat-card" data-aos="zoom-in" data-aos-delay="150"><div class="number"><span class="count" data-target="1690">0</span><span class="unit">&nbsp;万元</span></div><div class="desc">生日周边17分钟销售额</div></div>
+    <div class="stat-card" data-aos="zoom-in" data-aos-delay="250"><div class="number"><span class="count" data-target="24">0</span><span class="unit">&nbsp;小时</span></div><div class="desc">高会排名七番逆袭至一番</div></div>
+    <div class="stat-card" data-aos="zoom-in" data-aos-delay="300"><div class="number"><span class="count" data-target="90">0</span><span class="unit">&nbsp;万+</span></div><div class="desc">粉丝单日应援投入金额</div></div>
+  </div>
+</div></section>
+
+<div class="section-divider"></div>
+
+<!-- 舞台作品 -->
+<section class="section" id="works" style="background:#fff;"><div class="section-inner">
+  <div class="section-title" data-aos="fade-up"><h2>🎤 舞台 · 作品</h2><div class="line"></div><p>每一个舞台都是一次发光 — 点击照片查看大图</p></div>
+  <div class="works-grid" id="worksGrid"></div>
+</div></section>
+
+<!-- 留言板 -->
+<section class="section" id="guestbook"><div class="section-inner">
+  <div class="section-title" data-aos="fade-up"><h2>💬 Lumos 留言板</h2><div class="line"></div><p>每一条留言，都是我们一起走过的印记</p></div>
+  <div class="memorial-note" data-aos="fade-up">
+    <i class="fa-solid fa-heart"></i> 纪念版 · 留言板已定格 <i class="fa-solid fa-heart"></i><br>
+    <span style="font-size:0.8rem;">这些是 2025.12 ~ 2026.07 期间橹毛们的珍贵留言</span>
+  </div>
+  <div class="comments-list" id="commentsList" data-aos="fade-up"></div>
+</div></section>
+
+<footer class="footer">
+  <div class="social-links">
+    <a href="https://weibo.com/n/TF家族-王橹杰LJW" target="_blank" aria-label="王橹杰微博"><i class="fa-brands fa-weibo"></i></a>
+    <a href="https://weibo.com/n/TF家族" target="_blank" aria-label="TF家族微博"><i class="fa-brands fa-weibo"></i></a>
+    <a href="https://www.bilibili.com" target="_blank" aria-label="B站"><i class="fa-brands fa-bilibili"></i></a>
+  </div>
+  <p>忙鱼の应援站 · 王橹杰 · 时代峰峻四代练习生 · 门面主唱</p>
+  <p class="endline">🐟 忙鱼 × 橹杰 · 未来可期 ✨</p>
+  <p style="margin-top:8px;font-size:0.72rem;color:rgba(255,255,255,0.35);">纪念版 · 2025.12 ~ 2026.07 · 本站非官方 · 忙鱼个人收藏 &copy; 2026</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" aria-label="关闭大图">&times;</button>
+  <img src="" alt="" id="lightboxImg">
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="返回顶部"><i class="fa-solid fa-arrow-up"></i></button>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+// === 舞台作品数据 ===
+var worksData = [
+  { title:'《希区考克》', desc:'忙鱼最爱的舞台！四机位4K直拍，白发挑染造型封神', img:'work0.jpg', favorite:true },
+  { title:'《克卜勒》', desc:'个人翻唱舞台，清澈嗓音完美演绎', img:'work1.jpg' },
+  { title:'《新贵妃醉酒》', desc:'戏曲融合现代风格，展现多元实力', img:'work2.jpg' },
+  { title:'《来自天堂的魔鬼》', desc:'2026新年音乐会，舞剑+小提琴惊艳全场', img:'work3.jpg' },
+  { title:'《浪漫纯属虚构》', desc:'EP《危险的关系OST》收录曲', img:'work4.jpg' },
+  { title:'《落日只会道别》', desc:'EP收录曲，温柔声线感动无数粉丝', img:'work5.jpg' },
+  { title:'《Lovely》', desc:'与张函瑞合作舞台，播放量突破2711万', img:'work6.jpg' },
+  { title:'《刀马舞》', desc:'京剧武生+现代街舞，单日播放1200万+', img:'work7.jpg' },
+  { title:'《心动》', desc:'2025年团体单曲，少年感满分', img:'work8.jpg' },
+  { title:'《适合，不适合》', desc:'2025年团体单曲，展现成熟唱功', img:'work9.jpg' }
+];
+
+(function buildWorksGrid(){
+  var grid = document.getElementById('worksGrid');
+  grid.innerHTML = worksData.map(function(w, i){
+    var favClass = w.favorite ? ' favorite' : '';
+    return '<div class="work-card' + favClass + '" data-aos="fade-up" data-aos-delay="' + (i*80) + '" onclick="openLightbox(\'' + w.img + '\',\'' + w.title + '\')">'
+      + '<div class="thumb"><img src="' + w.img + '" alt="' + w.title + '" loading="lazy"></div>'
+      + '<div class="work-info"><h3>' + w.title + '</h3><p>' + w.desc + '</p></div>'
+      + '</div>';
+  }).join('');
+})();
+
+// === 照片灯箱 ===
+function openLightbox(src, title){
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightboxImg');
+  img.src = src;
+  img.alt = title;
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  var lb = document.getElementById('lightbox');
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+document.getElementById('lightbox').addEventListener('click', function(e){
+  if(e.target === this || e.target.classList.contains('lightbox-close')) closeLightbox();
+});
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLightbox();
+});
+
+// === 忙鱼档案编辑 ===
+function startEdit(field){
+  var val = field.querySelector('.f-value');
+  val.focus();
+  var range = document.createRange();
+  range.selectNodeContents(val);
+  range.collapse(false);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+}
+function saveMangyuFields(){
+  document.querySelectorAll('#mangyuFields .f-value').forEach(function(el){
+    var key = el.dataset.key;
+    if(key) localStorage.setItem('mangyu_'+key, el.textContent||'');
+  });
+}
+function loadMangyuFields(){
+  document.querySelectorAll('#mangyuFields .f-value').forEach(function(el){
+    var key = el.dataset.key;
+    if(key){
+      var saved = localStorage.getItem('mangyu_'+key);
+      if(saved !== null && saved !== '') el.textContent = saved;
+    }
+  });
+}
+document.getElementById('mangyuFields').addEventListener('blur', function(e){
+  if(e.target.classList.contains('f-value')) saveMangyuFields();
+}, true);
+document.getElementById('mangyuFields').addEventListener('input', function(e){
+  if(e.target.classList.contains('f-value')) saveMangyuFields();
+}, true);
+
+// === AOS 动画 ===
+AOS.init({duration:700, easing:'ease-out-cubic', once:true, offset:60});
+
+// === 导航 & 视差 ===
+var navbar = document.getElementById('navbar'),
+    bb = document.querySelector('.back-to-top'),
+    heroBgImg = document.getElementById('heroBgImg'),
+    ticking = false;
+
+window.addEventListener('scroll', function(){
+  if(!ticking){
+    requestAnimationFrame(function(){
+      var y = window.scrollY;
+      var vh = window.innerHeight;
+      navbar.classList.toggle('scrolled', y > 50);
+      bb.classList.toggle('show', y > 500);
+      if(heroBgImg && window.innerWidth > 600 && y < vh){
+        heroBgImg.style.transform = 'translateY(' + (y * 0.3) + 'px)';
+      }
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, {passive: true});
+
+// === 汉堡菜单 ===
+var hb = document.getElementById('hamburger'), nl = document.getElementById('navLinks');
+hb.addEventListener('click', function(){
+  nl.classList.toggle('open');
+  var expanded = nl.classList.contains('open');
+  hb.setAttribute('aria-expanded', expanded);
+  hb.querySelector('i').className = expanded ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+});
+nl.querySelectorAll('a').forEach(function(a){
+  a.addEventListener('click', function(){
+    nl.classList.remove('open');
+    hb.setAttribute('aria-expanded', 'false');
+    hb.querySelector('i').className = 'fa-solid fa-bars';
+  });
+});
+
+// === 导航高亮 ===
+var sections = document.querySelectorAll('.section,.hero'), navItems = document.querySelectorAll('.nav-links a');
+var scrollTicking2 = false;
+window.addEventListener('scroll', function(){
+  if(!scrollTicking2){
+    requestAnimationFrame(function(){
+      var cur = '';
+      sections.forEach(function(s){ if(window.scrollY >= s.offsetTop - 100) cur = s.getAttribute('id'); });
+      navItems.forEach(function(a){ a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
+      scrollTicking2 = false;
+    });
+    scrollTicking2 = true;
+  }
+}, {passive: true});
+
+// === 数字跳动动画 ===
+var animDone = false;
+new IntersectionObserver(function(e){
+  if(e[0].isIntersecting && !animDone){
+    animDone = true;
+    document.querySelectorAll('.count').forEach(function(c){
+      var target = +c.dataset.target, current = 0;
+      (function tick(){
+        current += (target - current) * 0.08;
+        if(target - current > 0.5){
+          c.textContent = Math.floor(current);
+          requestAnimationFrame(tick);
+        } else {
+          c.textContent = target;
+        }
+      })();
+    });
+  }
+}, {threshold: 0.3}).observe(document.getElementById('stats'));
+
+// ============================
+//  静态留言板 - 来自 data.json 的珍贵记录
+// ============================
+var STATIC_COMMENTS = [
+  {"id":1,"user_id":1,"username":"忙鱼","content":"橹橹！从2025年12月6日入坑到现在，每一天都被你治愈着。《希区考克》的舞台我看了无数遍，每次都会心动。会一直做你的Lumos，陪你走下去！💚✨","created_at":"2025-12-06 20:30"},
+  {"id":2,"user_id":2,"username":"橹橹的小星星","content":"从你公开第一天就喜欢你了，会一直陪你走下去！🌟","created_at":"2026-06-17 21:36:28"},
+  {"id":3,"user_id":3,"username":"Lumos永远","content":"Lumos永远为橹杰照亮前方的路 ✨","created_at":"2026-06-17 21:36:28"},
+  {"id":4,"user_id":4,"username":"碧玉守护者","content":"每一次舞台都让人惊艳，未来可期！","created_at":"2026-06-17 21:36:28"},
+  {"id":5,"user_id":5,"username":"成都老乡","content":"同为成都人为你骄傲！彝族少年加油 💚","created_at":"2026-06-17 21:36:28"},
+  {"id":6,"user_id":7,"username":"红莲","content":"天天开心","created_at":"2026-06-17 21:51:10"}
+];
+
+function fmtTime(t){
+  if(!t) return '';
+  var p = t.split(' '), dp = (p[0]||'').split('-'), tp = (p[1]||'00:00').split(':');
+  var d = new Date(parseInt(dp[0]), parseInt(dp[1])-1, parseInt(dp[2]), parseInt(tp[0])||0, parseInt(tp[1])||0, parseInt(tp[2])||0);
+  if(isNaN(d.getTime())) return t;
+  var n = new Date(), df = n - d;
+  if(df < 6e4) return '刚刚';
+  if(df < 36e5) return Math.floor(df/6e4) + '分钟前';
+  if(df < 864e5) return Math.floor(df/36e5) + '小时前';
+  if(df < 6048e5) return Math.floor(df/864e5) + '天前';
+  return dp[0] + '-' + dp[1] + '-' + dp[2];
+}
+function avChar(n){ return (n||'?').replace(/[^一-龥a-zA-Z0-9]/g,'').charAt(0)||'?'; }
+function esc(s){ var d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
+
+function renderComments(cs){
+  var el = document.getElementById('commentsList');
+  if(!cs || cs.length === 0){
+    el.innerHTML = '<div class="comments-empty"><i class="fa-solid fa-comments" style="font-size:3rem;color:#c0d8c8;display:block;margin-bottom:16px;"></i>还没有留言 💚</div>';
+    return;
+  }
+  el.innerHTML = cs.map(function(c){
+    var cls = c.username === '忙鱼' ? 'mangyu' : 'other';
+    return '<div class="comment-item"><div class="comment-avatar '+cls+'">'+avChar(c.username)+'</div><div class="comment-body"><div class="comment-header"><span class="comment-name">'+esc(c.username)+'</span><span class="comment-time">'+fmtTime(c.created_at)+'</span></div><div class="comment-text">'+esc(c.content)+'</div></div></div>';
+  }).join('');
+}
+
+// === 启动 ===
+loadMangyuFields();
+renderComments(STATIC_COMMENTS);
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('/sw.js'); }
+</script>
+</body>
+</html>
