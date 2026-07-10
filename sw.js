@@ -1,12 +1,23 @@
 // Service Worker — 忙鱼の橹杰收藏馆
-var CACHE_NAME = 'wlj-v1';
+var CACHE_NAME = 'wlj-v2';
 var urlsToCache = [
   '/',
   '/index.html',
   '/forum.html',
   '/manifest.json',
+  '/hero.jpg',
   '/profile.jpg',
-  '/cover.jpg',
+  '/hitchcock.jpg',
+  '/work0.jpg',
+  '/work1.jpg',
+  '/work2.jpg',
+  '/work3.jpg',
+  '/work4.jpg',
+  '/work5.jpg',
+  '/work6.jpg',
+  '/work7.jpg',
+  '/work8.jpg',
+  '/work9.jpg',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
 ];
 
