@@ -196,7 +196,7 @@
     .comment-header{display:flex;align-items:baseline;gap:10px;margin-bottom:3px}
     .comment-name{font-weight:600;font-size:var(--fs-body);color:var(--green-dark)}
     .comment-name.is-self{color:var(--green)}
-    .comment-time{font-size:var(--fs-xs);color:#bbb}
+    .comment-time{font-size:var(--fs-xs);color:var(--text-light)}
     .comment-text{font-size:var(--fs-body);color:var(--text);word-break:break-word;line-height:1.6}
     .comments-empty{text-align:center;padding:60px 20px;color:#bbb;font-size:var(--fs-body)}
     .comment-input-area{max-width:600px;margin:24px auto 0;text-align:center}
@@ -207,6 +207,13 @@
     .comment-login-hint{color:var(--text-light);font-size:var(--fs-small)}
     .comment-login-hint a{color:var(--green-dark);font-weight:600}
     @keyframes commentSlideIn{from{opacity:0;transform:translateY(-8px) scale(0.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+    /* Toast */
+    .toast-container{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+    .toast{background:rgba(26,58,40,0.92);color:#fff;padding:10px 24px;border-radius:20px;font-size:0.85rem;box-shadow:0 4px 16px rgba(0,0,0,0.15);animation:toastIn 0.3s ease;pointer-events:auto;max-width:80vw;text-align:center;backdrop-filter:blur(8px)}
+    .toast.success{border-left:3px solid var(--green)}
+    .toast.error{border-left:3px solid #e55}
+    @keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 
     /* === Hitchcock === */
     .hitchcock-section{background:linear-gradient(180deg,#0d0d0d 0%,#1a1a2e 30%,#16213e 70%,#1a3a28 100%);color:#fff;padding:clamp(60px,8vw,100px) 24px;position:relative;overflow:hidden}
@@ -473,6 +480,7 @@
   <img src="" alt="" id="lightboxImg">
 </div>
 
+<div class="toast-container" id="toastContainer"></div>
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="返回顶部"><i class="fa-solid fa-arrow-up"></i></button>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -642,15 +650,25 @@
   // ============================
   var API_BASE = window.location.origin;
   function api_esc(s){ var d = document.createElement('div'); d.textContent = s||''; return d.innerHTML; }
+  function showToast(msg,type){
+    var c=document.getElementById('toastContainer');
+    var t=document.createElement('div');
+    t.className='toast'+(type?' '+type:'');
+    t.textContent=msg;
+    c.appendChild(t);
+    setTimeout(function(){t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(function(){t.remove()},300)},2500);
+  }
   function api_fmtTime(t){
     if(!t) return '';
-    var d = new Date(t.replace(' ','T') + '+08:00');
+    var p = t.split(' '), dp = (p[0]||'').split('-'), tp = (p[1]||'00:00').split(':');
+    var d = new Date(parseInt(dp[0]), parseInt(dp[1])-1, parseInt(dp[2]), parseInt(tp[0])||0, parseInt(tp[1])||0, parseInt(tp[2])||0);
     if(isNaN(d.getTime())) return t;
     var n = new Date(), df = n - d;
     if(df < 6e4) return '刚刚';
     if(df < 36e5) return Math.floor(df/6e4) + '分钟前';
     if(df < 864e5) return Math.floor(df/36e5) + '小时前';
-    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+    if(df < 6048e5) return Math.floor(df/864e5) + '天前';
+    return dp[0] + '-' + dp[1] + '-' + dp[2];
   }
   function isLogin(){ return !!localStorage.getItem('wlj_token'); }
   function myName(){ return localStorage.getItem('wlj_username')||''; }
@@ -743,12 +761,12 @@
     catch(e){ document.getElementById('commentsList').innerHTML = '<div class="comments-empty">加载失败，请稍后刷新 💚</div>'; }
   }
   async function postComment(){
-    if(!isLogin()){ alert('请先登录'); return; }
+    if(!isLogin()){ showToast('请先登录','error'); return; }
     var inp = document.getElementById('commentInput');
     var t = inp.value.trim();
     if(!t) return;
-    try{ await api('POST','/api/comments',{content:t}); inp.value = ''; }
-    catch(e){ alert('发送失败：'+e.message); }
+    try{ await api('POST','/api/comments',{content:t}); inp.value = ''; showToast('留言成功！💚','success'); }
+    catch(e){ showToast('发送失败：'+e.message,'error'); }
   }
   function setupSSE(){
     var es = new EventSource(API_BASE + '/api/comments/stream');

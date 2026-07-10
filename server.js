@@ -22,16 +22,30 @@ if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 // --- 敏感词列表 ---
 const BAD_WORDS = ['广告', '加微信', '加V', '免费领取', '赚钱', '兼职', '代购', '微商', '引流', 'fuck', 'shit', '傻逼', '妈的', '操你', 'sb', 'cnm'];
 
-// --- 数据读写 ---
-function readData() {
+// --- 数据读写 (内存缓存 + 异步批量写入，解决同步IO卡顿) ---
+function loadData() {
   try {
     if (fs.existsSync(DATA_FILE)) return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
   } catch (e) { console.error('读取数据失败:', e.message); }
   return { users: [], comments: [], posts: [], nextUserId: 1, nextCommentId: 1, nextPostId: 1 };
 }
 
-function writeData(data) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
+var saveTimer = null;
+
+// 异步延迟写入：500ms 内的多次修改合并为一次磁盘写入，避免频繁IO阻塞
+function saveData() {
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(function() {
+    fs.writeFile(DATA_FILE, JSON.stringify(db, null, 2), 'utf8', function(err) {
+      if (err) console.error('保存数据失败:', err.message);
+    });
+  }, 500);
+}
+
+// 立即同步写入（进程退出时使用）
+function saveDataSync() {
+  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+  try { fs.writeFileSync(DATA_FILE, JSON.stringify(db, null, 2), 'utf8'); } catch(e) {}
 }
 
 function getNow() {
@@ -42,7 +56,7 @@ function getNow() {
 }
 
 // --- 初始化 + 种子数据 ---
-var db = readData();
+var db = loadData();
 
 // 数据迁移：补缺失字段
 var migrated = false;
@@ -50,7 +64,7 @@ if (!db.posts) { db.posts = []; db.nextPostId = 1; migrated = true; }
 db.comments.forEach(function(c) {
   if (c.post_id === undefined) { c.post_id = null; migrated = true; }
 });
-if (migrated) writeData(db);
+if (migrated) saveData();
 
 // 种子数据
 if (db.comments.length === 0 && db.posts.length === 0) {
@@ -74,7 +88,7 @@ if (db.comments.length === 0 && db.posts.length === 0) {
       db.comments.push({ id: db.nextCommentId++, post_id: null, user_id: uid, username: item[0], content: item[1], created_at: getNow() });
     }
   });
-  writeData(db);
+  saveDataSync();
   console.log('种子数据已初始化');
 }
 
@@ -160,7 +174,7 @@ app.post('/api/register', authLimiter, function(req, res) {
   if (valErr) return res.status(400).json({ error: valErr });
   if (password.length < 6 || password.length > 20) return res.status(400).json({ error: '密码6-20位' });
 
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   if (db.users.some(function(u) { return u.username === username; })) {
     return res.status(409).json({ error: '该昵称已被注册' });
   }
@@ -168,14 +182,14 @@ app.post('/api/register', authLimiter, function(req, res) {
   db.users.push({ id: db.nextUserId, username: username, password: bcrypt.hashSync(password, 10), created_at: getNow() });
   var token = jwt.sign({ id: db.nextUserId, username: username }, JWT_SECRET, { expiresIn: TOKEN_EXPIRE });
   db.nextUserId++;
-  writeData(db);
+  saveData();
   res.json({ token: token, user: { id: db.nextUserId - 1, username: username } });
 });
 
 app.post('/api/login', authLimiter, function(req, res) {
   var username = (req.body.username || '').trim();
   var password = req.body.password || '';
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var user = db.users.find(function(u) { return u.username === username; });
   if (!user || !bcrypt.compareSync(password, user.password)) {
     return res.status(401).json({ error: '昵称或密码错误' });
@@ -189,7 +203,7 @@ app.post('/api/login', authLimiter, function(req, res) {
 // ==============================
 
 app.get('/api/comments', function(req, res) {
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var comments = db.comments.filter(function(c) { return !c.post_id; })
     .sort(function(a, b) { return b.created_at.localeCompare(a.created_at); }).slice(0, 100);
   res.json(comments);
@@ -203,10 +217,10 @@ app.post('/api/comments', auth, commentLimiter, function(req, res) {
   var bad = checkBadWords(cleaned);
   if (bad) return res.status(400).json({ error: '内容包含不当词汇' });
 
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   db.comments.push({ id: db.nextCommentId, post_id: null, user_id: req.user.id, username: req.user.username, content: cleaned, created_at: getNow() });
   db.nextCommentId++;
-  writeData(db);
+  saveData();
   broadcast({ type: 'new_comment', comment: db.comments[db.comments.length - 1] });
   res.json(db.comments[db.comments.length - 1]);
 });
@@ -217,7 +231,7 @@ app.post('/api/comments', auth, commentLimiter, function(req, res) {
 
 // 帖子列表
 app.get('/api/posts', function(req, res) {
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var page = parseInt(req.query.page) || 1;
   var perPage = 20;
   var posts = db.posts.slice().sort(function(a, b) { return b.created_at.localeCompare(a.created_at); });
@@ -228,7 +242,7 @@ app.get('/api/posts', function(req, res) {
 
 // 帖子详情
 app.get('/api/posts/:id', function(req, res) {
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var post = db.posts.find(function(p) { return p.id === parseInt(req.params.id); });
   if (!post) return res.status(404).json({ error: '帖子不存在' });
   var comments = db.comments.filter(function(c) { return c.post_id === post.id; })
@@ -259,21 +273,21 @@ app.post('/api/posts', auth, postLimiter, function(req, res) {
     return typeof f === 'string' && f.length < 100 && fs.existsSync(path.join(UPLOAD_DIR, f));
   });
 
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var post = {
     id: db.nextPostId++, user_id: req.user.id, username: req.user.username,
     title: title, content: content, images: images, comment_count: 0,
     created_at: getNow()
   };
   db.posts.push(post);
-  writeData(db);
+  saveData();
   broadcast({ type: 'new_post', post: post });
   res.json(post);
 });
 
 // 删帖
 app.delete('/api/posts/:id', auth, function(req, res) {
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var idx = db.posts.findIndex(function(p) { return p.id === parseInt(req.params.id); });
   if (idx === -1) return res.status(404).json({ error: '帖子不存在' });
   if (db.posts[idx].user_id !== req.user.id) return res.status(403).json({ error: '只能删除自己的帖子' });
@@ -287,7 +301,7 @@ app.delete('/api/posts/:id', auth, function(req, res) {
   // 删除关联评论
   db.comments = db.comments.filter(function(c) { return c.post_id !== post.id; });
   db.posts.splice(idx, 1);
-  writeData(db);
+  saveData();
   res.json({ ok: true });
 });
 
@@ -300,7 +314,7 @@ app.post('/api/posts/:id/comments', auth, commentLimiter, function(req, res) {
   var bad = checkBadWords(cleaned);
   if (bad) return res.status(400).json({ error: '内容包含不当词汇' });
 
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var pid = parseInt(req.params.id);
   var postIdx = db.posts.findIndex(function(p) { return p.id === pid; });
   if (postIdx === -1) return res.status(404).json({ error: '帖子不存在' });
@@ -308,14 +322,14 @@ app.post('/api/posts/:id/comments', auth, commentLimiter, function(req, res) {
   var comment = { id: db.nextCommentId++, post_id: pid, user_id: req.user.id, username: req.user.username, content: cleaned, created_at: getNow() };
   db.comments.push(comment);
   db.posts[postIdx].comment_count = (db.posts[postIdx].comment_count || 0) + 1;
-  writeData(db);
+  saveData();
   broadcast({ type: 'new_post_comment', comment: comment, postId: pid });
   res.json(comment);
 });
 
 // 删除评论
 app.delete('/api/posts/:id/comments/:cid', auth, function(req, res) {
-  db = readData();
+  // db 已在内存缓存中，无需重复读取
   var cid = parseInt(req.params.cid);
   var pid = parseInt(req.params.id);
   var cIdx = db.comments.findIndex(function(c) { return c.id === cid && c.post_id === pid; });
@@ -324,7 +338,7 @@ app.delete('/api/posts/:id/comments/:cid', auth, function(req, res) {
   db.comments.splice(cIdx, 1);
   var postIdx = db.posts.findIndex(function(p) { return p.id === pid; });
   if (postIdx !== -1) db.posts[postIdx].comment_count = Math.max(0, (db.posts[postIdx].comment_count || 1) - 1);
-  writeData(db);
+  saveData();
   res.json({ ok: true });
 });
 
@@ -376,6 +390,11 @@ function broadcast(data) {
 }
 
 setInterval(function() { broadcast({ type: 'ping' }); }, 30000);
+
+// --- 进程退出时确保数据落盘 ---
+process.on('SIGINT', function() { saveDataSync(); process.exit(0); });
+process.on('SIGTERM', function() { saveDataSync(); process.exit(0); });
+process.on('beforeExit', function() { saveDataSync(); });
 
 // --- 启动 ---
 app.listen(PORT, function() {

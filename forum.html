@@ -34,8 +34,11 @@
     .user-name{font-weight:600;color:var(--green-dark)}
     .btn-sm{background:none;border:1px solid #ddd;border-radius:14px;padding:2px 10px;font-size:0.7rem;color:#999;cursor:pointer}
     .btn-sm:hover{border-color:#e88;color:#e55}
-    .btn-main{background:var(--green-dark)!important;color:#fff!important;border:none;border-radius:20px;padding:8px 24px;cursor:pointer;font-size:0.9rem;letter-spacing:1px}
+    .btn-main{background:var(--green-dark)!important;color:#fff!important;border:none;border-radius:20px;padding:8px 24px;cursor:pointer;font-size:0.9rem;letter-spacing:1px;transition:opacity 0.2s,transform 0.2s}
     .btn-main:hover{opacity:0.9}
+    .btn-main:disabled{opacity:0.6;cursor:not-allowed;pointer-events:none}
+    .btn-spinner i{animation:spin 1s linear infinite}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
     .login-tip{font-size:0.8rem;color:var(--text-light)}
 
     /* 论坛标题 */
@@ -50,15 +53,23 @@
 
     /* 帖子列表 */
     .post-list{}
-    .post-card{background:var(--white);border-radius:var(--radius-sm);padding:18px 20px;margin-bottom:10px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all 0.2s;border-left:3px solid transparent;position:relative;display:flex;gap:14px}
-    .post-card:hover{border-left-color:var(--green);box-shadow:0 4px 16px rgba(0,0,0,0.08)}
-    .post-card-avatar{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:#fff;background:var(--gold)}
-    .post-card-body{flex:1;min-width:0}
-    .post-card-title{font-weight:700;font-size:1rem;color:var(--green-dark);margin-bottom:4px}
-    .post-card-title .tag{display:inline-block;background:var(--gold);color:#fff;font-size:0.65rem;padding:1px 6px;border-radius:8px;vertical-align:middle;margin-left:6px}
-    .post-card-preview{font-size:0.85rem;color:var(--text-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .post-card-meta{font-size:0.75rem;color:#bbb;margin-top:6px}
-    .post-card-meta i{margin:0 4px}
+    .post-card{background:var(--white);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all 0.2s;border-left:3px solid transparent;position:relative;display:flex;gap:12px}
+    .post-card:hover{border-left-color:var(--green);box-shadow:0 4px 16px rgba(0,0,0,0.08);transform:translateX(2px)}
+    .post-card:active{transform:scale(0.985)}
+    .post-card-avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:#fff;background:var(--gold)}
+    .post-card-body{flex:1;min-width:0;display:flex;flex-direction:column}
+    .post-card-title{font-weight:700;font-size:1rem;color:var(--green-dark);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+    .post-card-title .title-text{flex:1;min-width:0}
+    .post-card-title .tag{display:inline-block;background:var(--gold);color:#fff;font-size:0.65rem;padding:1px 6px;border-radius:8px;vertical-align:middle;flex-shrink:0}
+    .post-card-title .has-img-badge{display:inline-block;font-size:0.68rem;color:var(--green);flex-shrink:0}
+    .post-card-preview{font-size:0.85rem;color:var(--text-light);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.5;margin-bottom:6px}
+    .post-card-meta{font-size:0.78rem;color:var(--text-light);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+    .post-card-meta .meta-sep{color:#c0d8c8}
+    .post-card-meta i{margin-right:2px;color:var(--green)}
+    .post-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
+    .post-card-arrow{font-size:0.7rem;color:#c0d8c8;flex-shrink:0;transition:all 0.2s}
+    .post-card:hover .post-card-arrow{color:var(--green);transform:translateX(2px)}
+    .post-card-thumb{width:60px;height:60px;border-radius:8px;object-fit:cover;flex-shrink:0;margin-left:4px}
     .btn-del-post{position:absolute;top:8px;right:10px;background:none;border:none;color:#ccc;cursor:pointer;font-size:0.8rem;padding:2px 6px;border-radius:4px}
     .btn-del-post:hover{color:#e55;background:#fff0f0}
     .empty-state{text-align:center;padding:60px 20px;color:#bbb}
@@ -71,10 +82,19 @@
     .detail-back{background:none;border:none;color:var(--green-dark);cursor:pointer;font-size:0.9rem;padding:0;margin-bottom:16px;font-weight:600}
     .detail-back:hover{opacity:0.7}
     .detail-title{font-size:1.3rem;font-weight:700;color:var(--green-deep);margin-bottom:8px}
-    .detail-meta{font-size:0.8rem;color:#bbb;margin-bottom:16px}
+    .detail-meta{font-size:0.8rem;color:var(--text-light);margin-bottom:16px}
     .detail-content{font-size:0.95rem;line-height:1.8;color:var(--text);margin-bottom:16px;white-space:pre-wrap}
     .detail-images{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-    .detail-images img{max-width:180px;max-height:180px;border-radius:8px;object-fit:cover;cursor:pointer}
+    .detail-img-wrap{position:relative;display:inline-block;border-radius:8px;overflow:hidden}
+    .detail-img-wrap img{max-width:180px;max-height:180px;border-radius:8px;object-fit:cover;cursor:zoom-in;display:block}
+    .detail-img-wrap .img-actions{position:absolute;bottom:6px;right:6px;display:flex;gap:4px;opacity:0;transition:opacity 0.2s}
+    .detail-img-wrap:hover .img-actions{opacity:1}
+    .detail-img-wrap .img-action-btn{background:rgba(0,0,0,0.65);color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:0.7rem;cursor:pointer;display:flex;align-items:center;gap:4px;transition:background 0.2s;white-space:nowrap}
+    .detail-img-wrap .img-action-btn:hover{background:rgba(0,0,0,0.85)}
+    @media(hover:none){
+      .detail-img-wrap .img-actions{opacity:1;bottom:4px;right:4px}
+      .detail-img-wrap .img-action-btn{padding:6px 12px;font-size:0.75rem}
+    }
     .detail-comments-title{font-weight:700;color:var(--green-dark);padding:16px 0 8px;border-top:1px solid #f0f0f0}
     .detail-comments{margin-bottom:12px}
     .comment-item{display:flex;gap:8px;padding:10px 0;border-bottom:1px solid #f5f5f5;position:relative}
@@ -120,14 +140,39 @@
     .modal-switch{text-align:center;margin-top:12px;font-size:0.85rem;color:var(--text-light)}
     .modal-switch a{color:var(--green-dark);font-weight:600}
 
+    /* 图片灯箱 */
+    .lightbox{position:fixed;inset:0;z-index:10001;background:rgba(0,0,0,0.92);display:flex;align-items:center;justify-content:center}
+    .lightbox img{max-width:92vw;max-height:92vh;object-fit:contain;border-radius:8px}
+    .lightbox-close{position:absolute;top:16px;right:24px;background:none;border:none;color:#fff;font-size:2rem;cursor:pointer;opacity:0.7;z-index:1}
+    .lightbox-close:hover{opacity:1}
+
+    /* Toast 消息 */
+    .toast-container{position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:99999;display:flex;flex-direction:column;align-items:center;gap:8px;pointer-events:none}
+    .toast{background:rgba(26,58,40,0.92);color:#fff;padding:10px 24px;border-radius:20px;font-size:0.85rem;box-shadow:0 4px 16px rgba(0,0,0,0.15);animation:toastIn 0.3s ease;pointer-events:auto;max-width:80vw;text-align:center;backdrop-filter:blur(8px)}
+    .toast.success{border-left:3px solid var(--green)}
+    .toast.error{border-left:3px solid #e55}
+    @keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+    /* 骨架屏 */
+    .skeleton-card{background:var(--white);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:12px;display:flex;gap:12px}
+    .skeleton-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(90deg,#e8f5ee 25%,#f0f8f3 50%,#e8f5ee 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;flex-shrink:0}
+    .skeleton-body{flex:1;display:flex;flex-direction:column;gap:8px;padding-top:4px}
+    .skeleton-line{height:12px;border-radius:6px;background:linear-gradient(90deg,#e8f5ee 25%,#f0f8f3 50%,#e8f5ee 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+    .skeleton-line.w60{width:60%}.skeleton-line.w80{width:80%}.skeleton-line.w40{width:40%}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
     @media(max-width:600px){
       .container{padding:72px 12px 30px}
-      .post-card{padding:14px 16px}
-      .detail-images img{max-width:100px;max-height:100px}
+      .post-card{padding:14px 14px}
+      .post-card-thumb{width:50px;height:50px}
+      .post-card-arrow{font-size:0.65rem}
+      .detail-img-wrap img{max-width:120px;max-height:120px}
     }
   </style>
 </head>
 <body>
+
+<!-- Toast 消息容器 -->
+<div class="toast-container" id="toastContainer"></div>
 
 <!-- 导航栏 -->
 <nav class="navbar">
@@ -174,7 +219,7 @@
         <input type="file" accept="image/*" id="imgInput" style="display:none" onchange="previewImage()">
       </label>
       <div id="postError" class="login-error" style="display:none;"></div>
-      <button class="btn btn-main" onclick="submitPost()">发布</button>
+      <button class="btn btn-main" id="submitPostBtn" onclick="submitPost()"><span class="btn-text">发布</span><span class="btn-spinner" style="display:none;"><i class="fa-solid fa-spinner fa-spin"></i> 发布中...</span></button>
     </div>
   </div>
 </div>
@@ -214,6 +259,12 @@
   <div class="detail-panel" id="detailPanel"></div>
 </div>
 
+<!-- 图片灯箱 -->
+<div class="lightbox" id="forumLightbox" style="display:none;" onclick="closeLightbox()">
+  <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+  <img src="" alt="" id="forumLightboxImg" onclick="event.stopPropagation()">
+</div>
+
 <input type="file" accept="image/*" id="hiddenImgInput" style="display:none;">
 
 <script>
@@ -224,7 +275,28 @@ var API = window.location.origin;
 var imgFiles = [];
 
 function esc(s){var d=document.createElement('div');d.textContent=s||'';return d.innerHTML}
-function fmtTime(t){if(!t)return'';var d=new Date(t.replace(' ','T')+'+08:00');if(isNaN(d.getTime()))return t;var n=new Date(),df=n-d;if(df<6e4)return'刚刚';if(df<36e5)return Math.floor(df/6e4)+'分钟前';if(df<864e5)return Math.floor(df/36e5)+'小时前';return t.split(' ')[0]}
+
+// Toast 消息（替代 alert）
+function showToast(msg,type){
+  var c=document.getElementById('toastContainer');
+  var t=document.createElement('div');
+  t.className='toast'+(type?' '+type:'');
+  t.textContent=msg;
+  c.appendChild(t);
+  setTimeout(function(){t.style.opacity='0';t.style.transition='opacity 0.3s';setTimeout(function(){t.remove()},300)},2500);
+}
+
+// 骨架屏
+function showSkeleton(){
+  var el=document.getElementById('postList');
+  var sk='';
+  for(var i=0;i<4;i++){
+    sk+='<div class="skeleton-card"><div class="skeleton-avatar"></div><div class="skeleton-body"><div class="skeleton-line w80"></div><div class="skeleton-line"></div><div class="skeleton-line w40"></div></div></div>';
+  }
+  el.innerHTML=sk;
+}
+
+function fmtTime(t){if(!t)return'';var p=t.split(' '),dp=(p[0]||'').split('-'),tp=(p[1]||'00:00').split(':');var d=new Date(parseInt(dp[0]),parseInt(dp[1])-1,parseInt(dp[2]),parseInt(tp[0])||0,parseInt(tp[1])||0,parseInt(tp[2])||0);if(isNaN(d.getTime()))return t;var n=new Date(),df=n-d;if(df<6e4)return'刚刚';if(df<36e5)return Math.floor(df/6e4)+'分钟前';if(df<864e5)return Math.floor(df/36e5)+'小时前';if(df<6048e5)return Math.floor(df/864e5)+'天前';return dp[0]+'-'+dp[1]+'-'+dp[2]}
 function avChar(n){return(n||'?').replace(/[^一-龥a-zA-Z0-9]/g,'').charAt(0)||'?'}
 
 function isLogin(){return!!localStorage.getItem('wlj_token')}
@@ -304,8 +376,8 @@ document.getElementById('postContent').addEventListener('input',function(){
 function previewImage(){
   var f=document.getElementById('imgInput').files[0];
   if(!f)return;
-  if(f.size>2*1024*1024){alert('图片不能超过2MB');return}
-  if(imgFiles.length>=3){alert('最多3张图片');return}
+  if(f.size>2*1024*1024){showToast('图片不能超过2MB','error');return}
+  if(imgFiles.length>=3){showToast('最多3张图片','error');return}
   imgFiles.push(f);
   document.getElementById('imgInput').value='';
   renderImgPreview();
@@ -318,29 +390,42 @@ function renderImgPreview(){
   document.getElementById('imgCount').textContent=imgFiles.length;
 }
 
+function setPosting(loading){
+  var btn=document.getElementById('submitPostBtn');
+  var txt=btn.querySelector('.btn-text');
+  var spin=btn.querySelector('.btn-spinner');
+  btn.disabled=loading;
+  txt.style.display=loading?'none':'';
+  spin.style.display=loading?'':'none';
+}
+
+async function uploadImage(file){
+  var fd=new FormData();fd.append('image',file);
+  var token=localStorage.getItem('wlj_token');
+  var r=await fetch(API+'/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
+  var d=await r.json();
+  if(!r.ok) throw new Error('图片上传失败: '+(d.error||''));
+  return d.filename;
+}
+
 async function submitPost(){
   var title=document.getElementById('postTitle').value.trim();
   var content=document.getElementById('postContent').value.trim();
   var err=document.getElementById('postError');
+  err.style.display='none';
   if(!title){err.textContent='请输入标题';err.style.display='block';return}
   if(!content){err.textContent='请输入内容';err.style.display='block';return}
 
-  // 先上传图片
-  var filenames=[];
-  for(var i=0;i<imgFiles.length;i++){
-    var fd=new FormData();fd.append('image',imgFiles[i]);
-    var token=localStorage.getItem('wlj_token');
-    var r=await fetch(API+'/api/upload',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd});
-    var d=await r.json();
-    if(!r.ok){err.textContent='图片上传失败: '+(d.error||'');err.style.display='block';return}
-    filenames.push(d.filename);
-  }
-
+  setPosting(true);
   try{
+    // 并行上传所有图片（不再一张一张串行等待）
+    var filenames=await Promise.all(imgFiles.map(function(f){return uploadImage(f);}));
     await api('POST','/api/posts',{title:title,content:content,images:filenames});
     closePostModal();
     currentPage=1;loadPosts();
+    showToast('发布成功！','success');
   }catch(e){err.textContent=e.message;err.style.display='block'}
+  finally{setPosting(false)}
 }
 
 // ============================
@@ -349,13 +434,15 @@ async function submitPost(){
 var currentPage=1,hasMore=true;
 
 async function loadPosts(){
+  var el=document.getElementById('postList');
+  if(currentPage===1) showSkeleton();
   try{
     var d=await api('GET','/api/posts?page='+currentPage);
     hasMore=d.hasMore;
     renderPosts(d.posts,currentPage===1);
     document.getElementById('loadMore').style.display=d.hasMore?'':'none';
   }catch(e){
-    document.getElementById('postList').innerHTML='<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>加载失败，请刷新重试</div>';
+    if(currentPage===1) el.innerHTML='<div class="empty-state"><i class="fa-solid fa-triangle-exclamation"></i>加载失败，请刷新重试</div>';
   }
 }
 
@@ -370,19 +457,64 @@ function renderPosts(posts,replace){
     if(String(p.user_id)===myId()){
       delBtn='<button class="btn-del-post" onclick="deletePost('+p.id+');event.stopPropagation();" title="删除">✕</button>';
     }
-    return '<div class="post-card" onclick="openPost('+p.id+')">'+
+    var hasImg=p.images&&p.images.length>0;
+    var thumbHtml=hasImg?'<img class="post-card-thumb" src="'+API+'/uploads/'+esc(p.images[0])+'" alt="" loading="lazy">':'';
+    var imgBadge=hasImg?'<span class="has-img-badge" title="含图片"><i class="fa-solid fa-image"></i></span>':'';
+    var preview=esc(p.content);
+    var previewText=preview.length>100?preview.substring(0,100)+'...':preview;
+    return '<div class="post-card" onclick="openPost('+p.id+')" title="点击查看详情">'+
       '<div class="post-card-avatar">'+avChar(p.username)+'</div>'+
       '<div class="post-card-body">'+
-        '<div class="post-card-title">'+esc(p.title)+'</div>'+
-        '<div class="post-card-preview">'+esc(p.content).substring(0,80)+(p.content.length>80?'...':'')+'</div>'+
-        '<div class="post-card-meta">'+esc(p.username)+' · '+fmtTime(p.created_at)+' · <i class="fa-solid fa-comment"></i> '+(p.comment_count||0)+'</div>'+
-      '</div>'+delBtn+
+        '<div class="post-card-title"><span class="title-text">'+esc(p.title)+'</span>'+imgBadge+'</div>'+
+        '<div class="post-card-preview">'+previewText+'</div>'+
+        '<div class="post-card-footer">'+
+          '<span class="post-card-meta">'+esc(p.username)+'<span class="meta-sep">·</span>'+fmtTime(p.created_at)+'<span class="meta-sep">·</span><i class="fa-solid fa-comment"></i>'+(p.comment_count||0)+'</span>'+
+          '<span class="post-card-arrow">查看详情 <i class="fa-solid fa-chevron-right"></i></span>'+
+        '</div>'+
+      '</div>'+thumbHtml+delBtn+
     '</div>';
   }).join('');
   if(replace)el.innerHTML=html;else el.innerHTML+=html;
 }
 
-function loadMorePosts(){currentPage++;loadPosts()}
+function loadMorePosts(){
+  var btn=document.querySelector('#loadMore button');
+  if(btn)btn.disabled=true;
+  currentPage++;loadPosts().finally(function(){if(btn)btn.disabled=false;});
+}
+
+// ============================
+//  图片工具：下载 & 灯箱
+// ============================
+function downloadImage(url, filename) {
+  // 使用 fetch + blob 下载，支持跨域图片保存
+  fetch(url).then(function(r){return r.blob()}).then(function(blob){
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download=filename||'image.jpg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(a.href);
+  }).catch(function(){
+    // fallback: 直接打开新标签
+    window.open(url,'_blank');
+  });
+}
+
+function openLightbox(src) {
+  var lb=document.getElementById('forumLightbox');
+  var img=document.getElementById('forumLightboxImg');
+  if(!lb) return window.open(src,'_blank');
+  img.src=src;
+  lb.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+
+function closeLightbox(){
+  var lb=document.getElementById('forumLightbox');
+  if(lb){lb.style.display='none';document.body.style.overflow='';}
+}
 
 // ============================
 //  帖子详情
@@ -397,7 +529,7 @@ async function openPost(pid){
     document.getElementById('postList').style.display='none';
     document.getElementById('loadMore').style.display='none';
     document.getElementById('detailPanel').style.display='block';
-  }catch(e){alert('加载帖子失败')}
+  }catch(e){showToast('加载帖子失败','error')}
 }
 
 function backToList(){
@@ -410,7 +542,14 @@ function renderDetail(post,comments){
   var imgs='';
   if(post.images&&post.images.length>0){
     imgs='<div class="detail-images">'+post.images.map(function(f){
-      return '<img src="'+API+'/uploads/'+f+'" onclick="window.open(this.src)">';
+      var url=API+'/uploads/'+f;
+      return '<div class="detail-img-wrap">'+
+        '<img src="'+url+'" onclick="openLightbox(this.src)" loading="lazy">'+
+        '<div class="img-actions">'+
+          '<button class="img-action-btn" onclick="event.stopPropagation();downloadImage(\''+url+'\',\''+f+'\')"><i class="fa-solid fa-download"></i> 保存</button>'+
+          '<button class="img-action-btn" onclick="event.stopPropagation();openLightbox(\''+url+'\')"><i class="fa-solid fa-magnifying-glass-plus"></i></button>'+
+        '</div>'+
+      '</div>';
     }).join('')+'</div>';
   }
   var delBtn='';
@@ -463,17 +602,18 @@ async function submitPostComment(){
   try{
     await api('POST','/api/posts/'+currentPostId+'/comments',{content:t});
     openPost(currentPostId);
-  }catch(e){alert(e.message)}
+    showToast('评论成功！','success');
+  }catch(e){showToast(e.message,'error')}
 }
 
 async function deletePost(pid){
   if(!confirm('确定删除帖子？'))return;
-  try{await api('DELETE','/api/posts/'+pid);backToList();currentPage=1;loadPosts()}catch(e){alert(e.message)}
+  try{await api('DELETE','/api/posts/'+pid);backToList();currentPage=1;loadPosts()}catch(e){showToast(e.message,'error')}
 }
 
 async function deleteComment(pid,cid){
   if(!confirm('确定删除评论？'))return;
-  try{await api('DELETE','/api/posts/'+pid+'/comments/'+cid);openPost(pid)}catch(e){alert(e.message)}
+  try{await api('DELETE','/api/posts/'+pid+'/comments/'+cid);openPost(pid)}catch(e){showToast(e.message,'error')}
 }
 
 // ============================
@@ -492,6 +632,7 @@ function setupSSE(){
 // ============================
 //  启动
 // ============================
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLightbox();});
 updateUI();loadPosts();setupSSE();if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js')}
 </script>
 </body>
