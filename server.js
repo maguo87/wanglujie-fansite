@@ -49,10 +49,13 @@ function saveDataSync() {
 }
 
 function getNow() {
+  // 始终使用北京时间（UTC+8），确保 Railway 等海外服务器时间正确
   var d = new Date();
-  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0') + ' ' + String(d.getHours()).padStart(2, '0') + ':' +
-    String(d.getMinutes()).padStart(2, '0') + ':' + String(d.getSeconds()).padStart(2, '0');
+  var offset = d.getTimezoneOffset() + 480; // 480 = UTC+8 的分钟偏移
+  var bj = new Date(d.getTime() + offset * 60000);
+  return bj.getFullYear() + '-' + String(bj.getMonth() + 1).padStart(2, '0') + '-' +
+    String(bj.getDate()).padStart(2, '0') + ' ' + String(bj.getHours()).padStart(2, '0') + ':' +
+    String(bj.getMinutes()).padStart(2, '0') + ':' + String(bj.getSeconds()).padStart(2, '0');
 }
 
 // --- 初始化 + 种子数据 ---

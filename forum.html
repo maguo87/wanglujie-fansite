@@ -42,9 +42,9 @@
     .login-tip{font-size:0.8rem;color:var(--text-light)}
 
     /* 论坛标题 */
-    .forum-header{text-align:center;margin-bottom:20px}
-    .forum-header h1{font-family:"Noto Serif SC",serif;font-size:1.8rem;color:var(--green-dark)}
-    .forum-header p{color:var(--text-light);font-size:0.9rem;margin-top:4px}
+    .forum-header{text-align:center;margin-bottom:24px}
+    .forum-header h1{font-family:"Noto Serif SC",serif;font-size:1.6rem;color:var(--green-dark);margin-bottom:4px}
+    .forum-header p{color:var(--text-light);font-size:0.88rem}
 
     /* 发帖按钮 */
     .post-btn-bar{text-align:right;margin-bottom:16px}
@@ -52,30 +52,23 @@
     .btn-post:hover{opacity:0.9}
 
     /* 帖子列表 */
-    .post-list{}
-    .post-card{background:var(--white);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:12px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all 0.2s;border-left:3px solid transparent;position:relative;display:flex;gap:12px}
-    .post-card:hover{border-left-color:var(--green);box-shadow:0 4px 16px rgba(0,0,0,0.08);transform:translateX(2px)}
-    .post-card:active{transform:scale(0.985)}
-    .post-card-avatar{width:42px;height:42px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85rem;color:#fff;background:var(--gold)}
-    .post-card-body{flex:1;min-width:0;display:flex;flex-direction:column}
-    .post-card-title{font-weight:700;font-size:1rem;color:var(--green-dark);margin-bottom:4px;display:flex;align-items:center;gap:6px}
-    .post-card-title .title-text{flex:1;min-width:0}
-    .post-card-title .tag{display:inline-block;background:var(--gold);color:#fff;font-size:0.65rem;padding:1px 6px;border-radius:8px;vertical-align:middle;flex-shrink:0}
-    .post-card-title .has-img-badge{display:inline-block;font-size:0.68rem;color:var(--green);flex-shrink:0}
-    .post-card-preview{font-size:0.85rem;color:var(--text-light);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.5;margin-bottom:6px}
-    .post-card-meta{font-size:0.78rem;color:var(--text-light);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-    .post-card-meta .meta-sep{color:#c0d8c8}
-    .post-card-meta i{margin-right:2px;color:var(--green)}
-    .post-card-footer{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
-    .post-card-arrow{font-size:0.7rem;color:#c0d8c8;flex-shrink:0;transition:all 0.2s}
-    .post-card:hover .post-card-arrow{color:var(--green);transform:translateX(2px)}
-    .post-card-thumb{width:60px;height:60px;border-radius:8px;object-fit:cover;flex-shrink:0;margin-left:4px}
-    .btn-del-post{position:absolute;top:8px;right:10px;background:none;border:none;color:#ccc;cursor:pointer;font-size:0.8rem;padding:2px 6px;border-radius:4px}
+    .post-card{background:var(--white);border-radius:12px;padding:20px 22px;margin-bottom:10px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.04);transition:all 0.2s ease;position:relative;border:1px solid transparent}
+    .post-card:hover{border-color:rgba(126,200,160,0.3);box-shadow:0 4px 20px rgba(45,90,61,0.08);transform:translateY(-1px)}
+    .post-card:active{transform:scale(0.99)}
+    .post-card-title{font-size:1.05rem;font-weight:700;color:var(--green-deep);margin-bottom:6px;line-height:1.4;padding-right:20px}
+    .post-card-preview{font-size:0.88rem;color:var(--text-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:10px;line-height:1.5}
+    .post-card-meta{font-size:0.8rem;color:var(--text-light);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .post-card-meta .sep{width:3px;height:3px;border-radius:50%;background:#c0d8c8;display:inline-block}
+    .post-card-meta i{color:var(--green);font-size:0.7rem}
+    .post-card-arrow{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-size:0.75rem;color:#c0d8c8;transition:all 0.2s;white-space:nowrap}
+    .post-card:hover .post-card-arrow{color:var(--green);transform:translateY(-50%) translateX(3px)}
+    .btn-del-post{position:absolute;top:10px;right:10px;background:none;border:none;color:#ccc;cursor:pointer;font-size:0.75rem;padding:3px 6px;border-radius:4px;z-index:1}
     .btn-del-post:hover{color:#e55;background:#fff0f0}
-    .empty-state{text-align:center;padding:60px 20px;color:#bbb}
+    .empty-state{text-align:center;padding:60px 20px;color:var(--text-light)}
     .empty-state i{font-size:3rem;display:block;margin-bottom:16px;color:#c0d8c8}
-    .load-more{text-align:center;padding:16px}
-    .load-more button{background:none;border:1.5px solid #d4ede0;border-radius:20px;padding:6px 24px;color:var(--text-light);cursor:pointer;font-size:0.85rem}
+    .load-more{text-align:center;padding:20px}
+    .load-more button{background:var(--white);border:1.5px solid #d4ede0;border-radius:20px;padding:8px 28px;color:var(--text-light);cursor:pointer;font-size:0.85rem;transition:all 0.2s}
+    .load-more button:hover{border-color:var(--green);color:var(--green-dark)}
 
     /* 帖子详情面板 */
     .detail-panel{display:none;background:var(--white);border-radius:var(--radius);padding:24px;box-shadow:0 4px 20px rgba(0,0,0,0.06)}
@@ -107,7 +100,7 @@
     .comment-header{display:flex;align-items:baseline;gap:8px;margin-bottom:2px}
     .comment-name{font-weight:600;font-size:0.85rem;color:var(--green-dark)}
     .comment-name.is-self{color:var(--green)}
-    .comment-time{font-size:0.68rem;color:#bbb}
+    .comment-time{font-size:0.7rem;color:var(--text-light)}
     .comment-text{font-size:0.88rem;color:var(--text);word-break:break-word}
     .comment-input-row{display:flex;gap:8px;margin-top:12px}
     .comment-input-row input{flex:1;border:1.5px solid #d4ede0;border-radius:20px;padding:8px 14px;font-size:0.85rem;font-family:inherit;outline:none}
@@ -126,7 +119,7 @@
     .modal-body input:focus,.modal-body textarea:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(126,200,160,0.12)}
     .modal-body textarea{min-height:100px;resize:vertical}
     .modal-body .btn{width:100%;margin-top:8px;padding:12px;text-align:center}
-    .char-count{text-align:right;font-size:0.75rem;color:#bbb;margin-top:-6px;margin-bottom:8px}
+    .char-count{text-align:right;font-size:0.75rem;color:var(--text-light);margin-top:-6px;margin-bottom:8px}
     .login-error{color:#e55;font-size:0.8rem;margin-bottom:8px;text-align:center;display:none}
     .modal-switch{text-align:center;margin-top:14px;font-size:0.85rem;color:var(--text-light)}
     .modal-switch a{color:var(--green-dark);font-weight:600}
@@ -153,18 +146,16 @@
     .toast.error{border-left:3px solid #e55}
     @keyframes toastIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
     /* 骨架屏 */
-    .skeleton-card{background:var(--white);border-radius:var(--radius-sm);padding:16px 18px;margin-bottom:12px;display:flex;gap:12px}
-    .skeleton-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(90deg,#e8f5ee 25%,#f0f8f3 50%,#e8f5ee 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;flex-shrink:0}
-    .skeleton-body{flex:1;display:flex;flex-direction:column;gap:8px;padding-top:4px}
-    .skeleton-line{height:12px;border-radius:6px;background:linear-gradient(90deg,#e8f5ee 25%,#f0f8f3 50%,#e8f5ee 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
-    .skeleton-line.w60{width:60%}.skeleton-line.w80{width:80%}.skeleton-line.w40{width:40%}
+    .skeleton-card{background:var(--white);border-radius:12px;padding:20px 22px;margin-bottom:10px}
+    .skeleton-line{height:14px;border-radius:6px;background:linear-gradient(90deg,#e8f5ee 25%,#f0f8f3 50%,#e8f5ee 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;margin-bottom:8px}
+    .skeleton-line.w50{width:50%}.skeleton-line.w80{width:80%}.skeleton-line.w35{width:35%}
     @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
     @media(max-width:600px){
       .container{padding:72px 12px 30px}
-      .post-card{padding:14px 14px}
-      .post-card-thumb{width:50px;height:50px}
-      .post-card-arrow{font-size:0.65rem}
+      .post-card{padding:16px 16px}
+      .post-card-title{font-size:1rem}
+      .post-card-arrow{right:12px;font-size:0.7rem}
       .detail-img-wrap img{max-width:120px;max-height:120px}
     }
   </style>
@@ -291,7 +282,7 @@ function showSkeleton(){
   var el=document.getElementById('postList');
   var sk='';
   for(var i=0;i<4;i++){
-    sk+='<div class="skeleton-card"><div class="skeleton-avatar"></div><div class="skeleton-body"><div class="skeleton-line w80"></div><div class="skeleton-line"></div><div class="skeleton-line w40"></div></div></div>';
+    sk+='<div class="skeleton-card"><div class="skeleton-line w50"></div><div class="skeleton-line w80"></div><div class="skeleton-line w35"></div></div>';
   }
   el.innerHTML=sk;
 }
@@ -457,21 +448,19 @@ function renderPosts(posts,replace){
     if(String(p.user_id)===myId()){
       delBtn='<button class="btn-del-post" onclick="deletePost('+p.id+');event.stopPropagation();" title="删除">✕</button>';
     }
-    var hasImg=p.images&&p.images.length>0;
-    var thumbHtml=hasImg?'<img class="post-card-thumb" src="'+API+'/uploads/'+esc(p.images[0])+'" alt="" loading="lazy">':'';
-    var imgBadge=hasImg?'<span class="has-img-badge" title="含图片"><i class="fa-solid fa-image"></i></span>':'';
     var preview=esc(p.content);
-    var previewText=preview.length>100?preview.substring(0,100)+'...':preview;
-    return '<div class="post-card" onclick="openPost('+p.id+')" title="点击查看详情">'+
-      '<div class="post-card-avatar">'+avChar(p.username)+'</div>'+
-      '<div class="post-card-body">'+
-        '<div class="post-card-title"><span class="title-text">'+esc(p.title)+'</span>'+imgBadge+'</div>'+
-        '<div class="post-card-preview">'+previewText+'</div>'+
-        '<div class="post-card-footer">'+
-          '<span class="post-card-meta">'+esc(p.username)+'<span class="meta-sep">·</span>'+fmtTime(p.created_at)+'<span class="meta-sep">·</span><i class="fa-solid fa-comment"></i>'+(p.comment_count||0)+'</span>'+
-          '<span class="post-card-arrow">查看详情 <i class="fa-solid fa-chevron-right"></i></span>'+
-        '</div>'+
-      '</div>'+thumbHtml+delBtn+
+    var previewText=preview.length>60?preview.substring(0,60)+'…':preview;
+    var hasImg=p.images&&p.images.length>0;
+    return '<div class="post-card" onclick="openPost('+p.id+')">'+
+      delBtn+
+      '<div class="post-card-title">'+esc(p.title)+'</div>'+
+      (previewText?'<div class="post-card-preview">'+previewText+'</div>':'')+
+      '<div class="post-card-meta">'+
+        esc(p.username)+'<span class="sep"></span>'+fmtTime(p.created_at)+
+        (hasImg?'<span class="sep"></span><i class="fa-solid fa-image"></i>':'')+
+        '<span class="sep"></span><i class="fa-solid fa-comment"></i> '+(p.comment_count||0)+
+      '</div>'+
+      '<span class="post-card-arrow">查看详情 <i class="fa-solid fa-chevron-right"></i></span>'+
     '</div>';
   }).join('');
   if(replace)el.innerHTML=html;else el.innerHTML+=html;
@@ -567,7 +556,7 @@ function renderDetail(post,comments){
   if(isLogin()){
     html+='<div class="comment-input-row"><input id="detailCommentInput" placeholder="写评论..." maxlength="200"><button onclick="submitPostComment()"><i class="fa-solid fa-paper-plane"></i></button></div>';
   }else{
-    html+='<p style="text-align:center;color:#bbb;font-size:0.85rem;margin-top:8px;">请<a href="javascript:void(0)" onclick="showLoginModal()" style="color:var(--green-dark);">登录</a>后评论</p>';
+    html+='<p style="text-align:center;color:var(--text-light);font-size:0.85rem;margin-top:8px;">请<a href="javascript:void(0)" onclick="showLoginModal()" style="color:var(--green-dark);">登录</a>后评论</p>';
   }
 
   document.getElementById('detailPanel').innerHTML=html;
@@ -578,7 +567,7 @@ function renderDetail(post,comments){
 }
 
 function renderPostComments(cs){
-  if(!cs||cs.length===0)return'<p style="color:#bbb;font-size:0.85rem;text-align:center;padding:20px;">暂无评论</p>';
+  if(!cs||cs.length===0)return'<p style="color:var(--text-light);font-size:0.85rem;text-align:center;padding:20px;">暂无评论</p>';
   return cs.map(function(c){
     var cls=(c.username==='忙鱼')?'mangyu':(String(c.user_id)===myId()?'self':'other');
     var del='';
